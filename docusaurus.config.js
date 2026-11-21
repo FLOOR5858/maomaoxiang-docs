@@ -43,7 +43,11 @@ const config = {
     ({
       navbar: {
         title: '毛毛象实验室',
-        logo: { alt: '毛毛象实验室', src: 'img/logo.svg' },
+        logo: {
+          alt: '毛毛象实验室',
+          src: 'img/logo.svg',
+          srcDark: 'img/logo-dark.svg',
+        },
         items: [
           { type: 'doc', docId: 'intro', position: 'left', label: '产品总览' },
           { type: 'doc', docId: 'product/rv1106g3-sc233', position: 'left', label: '产品规格' },
