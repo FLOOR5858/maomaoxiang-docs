@@ -1,12 +1,12 @@
 ---
 id: combo-kit
-title: MERCURY + LUNA 组合套件
+title: MERCURY-1106G3 + LUNA-SC233 组合套件
 sidebar_position: 3
 ---
 
-# MERCURY + LUNA 组合套件
+# MERCURY-1106G3 + LUNA-SC233 组合套件
 
-**组合套件** 把 [MERCURY 视觉主控](./solar-mercury-soc.md) 与 [LUNA 摄像头模组](./luna-camera.md) 配成一套可直接开发的视觉方案：主控负责图像采集、ISP 处理与 NPU 推理，摄像头提供 2 MP 图像输入。
+**组合套件** 把 [MERCURY-1106G3 视觉主控](./solar-mercury-soc.md) 与 [LUNA-SC233 摄像头模组](./luna-camera.md) 配成一套可直接开发的视觉方案：主控负责图像采集、ISP 处理与 NPU 推理，摄像头提供 2 MP 图像输入。
 
 > 两个产品也可以单独购买。本页只说明**组合层面**的参数与搭配关系；芯片和传感器本身的规格见各自的产品页。
 
@@ -14,8 +14,8 @@ sidebar_position: 3
 
 | 组成 | 产品 | 核心 |
 |---|---|---|
-| 主控 | MERCURY | RV1106G3，1 TOPS NPU，8 MP ISP |
-| 摄像头 | LUNA 模组 | SC233 系列 2 MP CMOS，MIPI / DVP 输出 |
+| 主控 | MERCURY-1106G3 | RV1106G3，1 TOPS NPU，8 MP ISP |
+| 摄像头 | LUNA-SC233 模组 | SC233 系列 2 MP CMOS，MIPI / DVP 输出 |
 | 连接 | MIPI CSI 2-lane | 10-bit RAW 直连 + I2C 配置 |
 
 ## 组合参数（待补充）
@@ -32,14 +32,14 @@ sidebar_position: 3
 
 ## 搭配提示
 
-- 确认摄像头为 SC233A 时，10-bit RAW + MIPI 1/2 lane 可与 MERCURY 的 MIPI CSI 直连。
+- 确认摄像头为 SC233A 时，10-bit RAW + MIPI 1/2 lane 可与 MERCURY-1106G3 的 MIPI CSI 直连。
 - 若选 SC233HGS（全局快门 / 120 fps），注意 ISP 输入与内存带宽是否匹配实际目标帧率。
 - 组合的机械堆叠、FPC 走线长度、镜头视场角需一起确认。
 
 ## 单独产品页
 
-- [MERCURY 视觉 SoC 主控](./solar-mercury-soc.md)
-- [LUNA 摄像头模组](./luna-camera.md)
+- [MERCURY-1106G3 视觉 SoC 主控](./solar-mercury-soc.md)
+- [LUNA-SC233 摄像头模组](./luna-camera.md)
 
 ## 开发与资料
 

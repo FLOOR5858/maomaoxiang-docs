@@ -13,13 +13,13 @@ sidebar_position: 1
 
 ## 命名体系
 
-以太阳系为家族，用天体名承载产品定位与升级路线——越靠内的行星越小巧低功耗，越靠外性能越强；卫星围绕行星，对应摄像头与主控的搭配关系。
+产品名格式为 `天体代号 - 芯片型号`：**前半段**用天体名表达定位与层级，**后半段**直接给出芯片型号，一眼就知道用什么芯片。天体名取自罗马/希腊神话（西方用户零门槛），行星由内向外对应由入门到旗舰，卫星对应摄像头 sensor。
 
-| 类别 | 系列 | 说明 |
-|---|---|---|
-| 视觉主控 | 行星系列 | MERCURY（水星）→ VENUS（金星）→ MARS（火星）→ JUPITER（木星） |
-| 摄像头模组 | 卫星系列 | LUNA（月球），当前基于 SC233 传感器 |
-| 组合套件 | — | MERCURY + LUNA |
+| 类别 | 天体代号 | 完整产品名 | 说明 |
+|---|---|---|---|
+| 视觉主控 | 行星 MERCURY / VENUS / MARS / JUPITER | MERCURY-1106G3 | 水星入门 → 金星中端 → 火星高端 → 木星旗舰 |
+| 摄像头模组 | 卫星 LUNA / IO / EUROPA / PHOBOS… | LUNA-SC233 | 月球当前；木卫、火卫、土卫预留后续 sensor |
+| 组合套件 | — | MERCURY-1106G3 + LUNA-SC233 | 主控 + 摄像头成套 |
 
 ## 产品线
 
@@ -27,29 +27,29 @@ sidebar_position: 1
 
 | 型号 | 天体 | 状态 | 主控 | 算力 | 定位 |
 |---|---|---|---|---|---|
-| MERCURY | 水星 | 当前 | Rockchip RV1106G3 | 最高 1 TOPS | 入门小巧，低功耗视觉采集 |
-| VENUS | 金星 | 规划 | 待定 | 待定 | 中端 |
-| MARS | 火星 | 规划 | 待定 | 待定 | 高端 |
-| JUPITER | 木星 | 规划 | 待定 | 待定 | 旗舰 |
+| MERCURY-1106G3 | 水星 | 当前 | Rockchip RV1106G3 | 最高 1 TOPS | 入门小巧，低功耗视觉采集 |
+| VENUS-<芯片> | 金星 | 规划 | 待定 | 待定 | 中端 |
+| MARS-<芯片> | 火星 | 规划 | 待定 | 待定 | 高端 |
+| JUPITER-<芯片> | 木星 | 规划 | 待定 | 待定 | 旗舰 |
 
-详见 [MERCURY 视觉 SoC 主控](./product/solar-mercury-soc.md)。
+详见 [MERCURY-1106G3 视觉 SoC 主控](./product/solar-mercury-soc.md)。
 
 ### 摄像头模组 · 卫星系列
 
-LUNA 系列当前基于思特威 SC233 系列 CMOS，2 MP 级别，支持 MIPI / DVP 输出。
+LUNA 系列当前型号 `LUNA-SC233`，基于思特威 SC233 系列 CMOS，2 MP 级别，支持 MIPI / DVP 输出。确认具体贴片型号后细化为 `LUNA-SC233A` / `LUNA-SC233HGS` 等。
 
 | 型号 | 分辨率 | 快门 | 帧率 |
 |---|---|---|---|
 | SC233A | 2 MP，1928×1088 | 卷帘 | 1080p@60 fps |
 | SC233HGS | 2.3 MP，1928×1208 | 全局 | 1200p@120 fps |
 
-详见 [LUNA 摄像头模组](./product/luna-camera.md)。
+详见 [LUNA-SC233 摄像头模组](./product/luna-camera.md)。
 
 ### 组合套件
 
-[MERCURY + LUNA 组合套件](./product/combo-kit.md) 把主控与摄像头配成一套，MIPI CSI 2-lane 直连，适合快速原型验证。
+[MERCURY-1106G3 + LUNA-SC233 组合套件](./product/combo-kit.md) 把主控与摄像头配成一套，MIPI CSI 2-lane 直连，适合快速原型验证。
 
-## 方案速览（MERCURY）
+## 方案速览（MERCURY-1106G3）
 
 | 项目 | 参数 | 来源 |
 |---|---|---|
@@ -70,8 +70,8 @@ LUNA 系列当前基于思特威 SC233 系列 CMOS，2 MP 级别，支持 MIPI /
 
 ## 快速导航
 
-- [MERCURY 视觉主控](./product/solar-mercury-soc.md)
-- [LUNA 摄像头模组](./product/luna-camera.md)
+- [MERCURY-1106G3 视觉主控](./product/solar-mercury-soc.md)
+- [LUNA-SC233 摄像头模组](./product/luna-camera.md)
 - [组合套件](./product/combo-kit.md)
 - [硬件与接口](./hardware/interfaces.md)
 - [SDK 与开发](./software/sdk.md)

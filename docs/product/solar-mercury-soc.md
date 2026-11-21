@@ -1,14 +1,14 @@
 ---
 id: solar-mercury-soc
-title: MERCURY 视觉 SoC 主控
+title: MERCURY-1106G3 视觉 SoC 主控
 sidebar_position: 1
 ---
 
-# MERCURY 视觉 SoC 主控
+# MERCURY-1106G3 视觉 SoC 主控
 
-**MERCURY（水星）** 是毛毛象实验室 SOLAR 行星系列视觉主控的入门型号，基于瑞芯微 **RV1106G3**，主打低功耗、小尺寸的图像采集与边缘 AI 推理。
+**MERCURY-1106G3**（代号"水星"）是毛毛象实验室 SOLAR 行星系列视觉主控的入门型号，基于瑞芯微 **RV1106G3**，主打低功耗、小尺寸的图像采集与边缘 AI 推理。
 
-> 命名规则：SOLAR 家族下按太阳系行星由内向外分级——水星 MERCURY（入门）→ 金星 VENUS（中端）→ 火星 MARS（高端）→ 木星 JUPITER（旗舰）。越靠内越小巧低功耗，越靠外越强。MERCURY 对应当前 RV1106G3。本页参数来自 Rockchip 官方数据手册，产品级信息标注 `待确认`。
+> 命名规则：`天体代号 - 芯片型号`。行星代号表示定位与层级（水星入门 → 金星中端 → 火星高端 → 木星旗舰），后缀直接给出芯片型号，一眼就知道用什么芯片。SOLAR 家族按太阳系行星由内向外分级：越靠内越小巧低功耗，越靠外越强。本页参数来自 Rockchip 官方数据手册，产品级信息标注 `待确认`。
 
 ## 规格参数
 
@@ -16,7 +16,7 @@ sidebar_position: 1
 
 | 项目 | 参数 |
 |---|---|
-| 系列型号 | SOLAR · MERCURY |
+| 产品型号 | MERCURY-1106G3（SOLAR 行星系列 · 水星） |
 | 主控芯片 | Rockchip RV1106G3 |
 | CPU | 单核 32-bit ARM Cortex-A7，NEON + FPU，32 KB I-Cache / 32 KB D-Cache / 128 KB L2 |
 | 片内存储 | SIP 2 Gb DDR3L（**256 MB**，16-bit） |
@@ -59,8 +59,8 @@ sidebar_position: 1
 
 ## 配套
 
-- 摄像头：[LUNA 摄像头模组](./luna-camera.md) — 推荐搭配
-- 组合方案：[MERCURY + LUNA 组合套件](./combo-kit.md)
+- 摄像头：[LUNA-SC233 摄像头模组](./luna-camera.md) — 推荐搭配
+- 组合方案：[MERCURY-1106G3 + LUNA-SC233 组合套件](./combo-kit.md)
 - 开发：[SDK 与开发](../software/sdk.md)
 - 资料：[资料下载](../downloads.md)
 
@@ -68,7 +68,8 @@ sidebar_position: 1
 
 | 型号 | 天体 | 状态 | 定位 |
 |---|---|---|---|
-| MERCURY | 水星 | 当前 | RV1106G3，入门小巧，1 TOPS |
-| VENUS | 金星 | 规划 | 中端，更高算力/接口（待定） |
-| MARS | 火星 | 规划 | 高端（待定） |
-| JUPITER | 木星 | 规划 | 旗舰（待定） |
+| MERCURY-1106G3 | 水星 | 当前 | RV1106G3，入门小巧，1 TOPS |
+| VENUS-<芯片> | 金星 | 规划 | 中端，更高算力/接口（待定） |
+| MARS-<芯片> | 火星 | 规划 | 高端（待定） |
+| JUPITER-<芯片> | 木星 | 规划 | 旗舰（待定） |
+| SATURN / URANUS / NEPTUNE | 土星/天王星/海王星 | 预留 | 未来更高端产品线 |

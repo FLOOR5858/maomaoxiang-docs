@@ -1,14 +1,14 @@
 ---
 id: luna-camera
-title: LUNA 摄像头模组（SC233）
+title: LUNA-SC233 摄像头模组
 sidebar_position: 2
 ---
 
-# LUNA 摄像头模组（SC233）
+# LUNA-SC233 摄像头模组
 
-**LUNA（月球）** 是毛毛象实验室 SOLAR 家族的视觉传感产品线。当前型号基于思特威（SmartSens）**SC233** 系列 CMOS 图像传感器，面向 2 MP 级别图像采集，可与 [MERCURY 视觉主控](./solar-mercury-soc.md) 直连搭配。
+**LUNA-SC233**（代号"月球"）是毛毛象实验室 SOLAR 卫星系列视觉传感产品。当前基于思特威（SmartSens）**SC233** 系列 CMOS 图像传感器，面向 2 MP 级别图像采集，可与 [MERCURY-1106G3 视觉主控](./solar-mercury-soc.md) 直连搭配。
 
-> 命名说明：LUNA 是产品线名称，SC233 是传感器芯片型号（保留芯片名便于按型号检索）。`SC233` 后缀差异很大，**请先确认模组上贴的实际型号**，再对照下表。模组级信息（镜头、FPC、尺寸）标注 `待确认`。
+> 命名规则：`天体代号 - 芯片型号`。LUNA 是卫星代号（月球），SC233 是传感器芯片系列。确认实际贴片型号后，产品名会细化为 `LUNA-SC233A` / `LUNA-SC233HGS` 等。`SC233` 后缀差异很大，**请先确认模组上贴的实际型号**，再对照下表。模组级信息（镜头、FPC、尺寸）标注 `待确认`。
 
 ## 传感器规格
 
@@ -47,11 +47,11 @@ SC233A 输出 10-bit RAW，支持 DVP 或 1/2-lane MIPI。推荐走 MIPI CSI 2-l
 ## 选型提示
 
 - 需要更高帧率或全局快门（运动场景、条码），确认是否为 **SC233HGS**；卷帘的 SC233A 不适合高速运动无拖影场景。
-- 与 MERCURY 搭配时，SC233A 的 10-bit RAW + MIPI 1/2 lane 配置可与 RV1106G3 的 MIPI CSI 直连。
+- 与 MERCURY-1106G3 搭配时，SC233A 的 10-bit RAW + MIPI 1/2 lane 配置可与 RV1106G3 的 MIPI CSI 直连。
 - 实际帧率受传感器、镜头、SDK 配置与内存带宽共同限制，ISP 输入上限不等于 2 MP 一定能跑满 60 fps。
 
 ## 配套
 
-- 主控：[MERCURY 视觉 SoC 主控](./solar-mercury-soc.md)
-- 组合方案：[MERCURY + LUNA 组合套件](./combo-kit.md)
+- 主控：[MERCURY-1106G3 视觉 SoC 主控](./solar-mercury-soc.md)
+- 组合方案：[MERCURY-1106G3 + LUNA-SC233 组合套件](./combo-kit.md)
 - 资料：[资料下载](../downloads.md)

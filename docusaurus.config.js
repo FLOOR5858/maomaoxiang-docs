@@ -55,8 +55,8 @@ const config = {
             label: '产品',
             position: 'left',
             items: [
-              { type: 'doc', docId: 'product/solar-mercury-soc', label: 'MERCURY 视觉主控' },
-              { type: 'doc', docId: 'product/luna-camera', label: 'LUNA 摄像头模组' },
+              { type: 'doc', docId: 'product/solar-mercury-soc', label: 'MERCURY-1106G3 主控' },
+              { type: 'doc', docId: 'product/luna-camera', label: 'LUNA-SC233 摄像头' },
               { type: 'doc', docId: 'product/combo-kit', label: '组合套件' },
             ],
           },
