@@ -28,9 +28,9 @@ sidebar_position: 1
 | 型号 | 天体 | 状态 | 主控 | 算力 | 定位 |
 |---|---|---|---|---|---|
 | MERCURY-1106G3 | 水星 | 当前 | Rockchip RV1106G3 | 最高 1 TOPS | 入门小巧，低功耗视觉采集 |
-| VENUS-<芯片> | 金星 | 规划 | 待定 | 待定 | 中端 |
-| MARS-<芯片> | 火星 | 规划 | 待定 | 待定 | 高端 |
-| JUPITER-<芯片> | 木星 | 规划 | 待定 | 待定 | 旗舰 |
+| VENUS-xxxx | 金星 | 规划 | 待定 | 待定 | 中端 |
+| MARS-xxxx | 火星 | 规划 | 待定 | 待定 | 高端 |
+| JUPITER-xxxx | 木星 | 规划 | 待定 | 待定 | 旗舰 |
 
 详见 [MERCURY-1106G3 视觉 SoC 主控](./product/solar-mercury-soc.md)。
 
