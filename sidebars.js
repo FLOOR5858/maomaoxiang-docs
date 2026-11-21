@@ -4,9 +4,9 @@ const sidebars = {
     'intro',
     {
       type: 'category',
-      label: '产品说明',
+      label: '产品',
       collapsed: false,
-      items: ['product/rv1106g3-sc233'],
+      items: ['product/iris-100-soc', 'product/sc233-camera', 'product/combo-kit'],
     },
     {
       type: 'category',

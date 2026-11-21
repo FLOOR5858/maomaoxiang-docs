@@ -50,7 +50,16 @@ const config = {
         },
         items: [
           { type: 'doc', docId: 'intro', position: 'left', label: '产品总览' },
-          { type: 'doc', docId: 'product/rv1106g3-sc233', position: 'left', label: '产品规格' },
+          {
+            type: 'dropdown',
+            label: '产品',
+            position: 'left',
+            items: [
+              { type: 'doc', docId: 'product/iris-100-soc', label: 'IRIS-100 视觉主控' },
+              { type: 'doc', docId: 'product/sc233-camera', label: 'SC233 摄像头模组' },
+              { type: 'doc', docId: 'product/combo-kit', label: '组合套件' },
+            ],
+          },
           { type: 'doc', docId: 'downloads', position: 'left', label: '资料下载' },
           { type: 'doc', docId: 'faq', position: 'left', label: 'FAQ' },
           { href: 'https://www.maomaoxiang.com', label: '技术博客', position: 'right' },
