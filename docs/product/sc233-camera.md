@@ -1,5 +1,5 @@
 ---
-id: product/sc233-camera
+id: sc233-camera
 title: SC233 摄像头模组
 sidebar_position: 2
 ---

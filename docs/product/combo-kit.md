@@ -1,5 +1,5 @@
 ---
-id: product/combo-kit
+id: combo-kit
 title: IRIS-100 + SC233 组合套件
 sidebar_position: 3
 ---

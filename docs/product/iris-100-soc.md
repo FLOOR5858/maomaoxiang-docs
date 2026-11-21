@@ -1,5 +1,5 @@
 ---
-id: product/iris-100-soc
+id: iris-100-soc
 title: IRIS-100 视觉 SoC 主控
 sidebar_position: 1
 ---
