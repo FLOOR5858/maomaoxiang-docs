@@ -1,14 +1,14 @@
 ---
-id: iris-100-soc
-title: IRIS-100 视觉 SoC 主控
+id: solar-mercury-soc
+title: MERCURY 视觉 SoC 主控
 sidebar_position: 1
 ---
 
-# IRIS-100 视觉 SoC 主控
+# MERCURY 视觉 SoC 主控
 
-**IRIS-100** 是毛毛象实验室 IRIS 系列视觉主控的入门型号，基于瑞芯微 **RV1106G3**，主打低功耗、小尺寸的图像采集与边缘 AI 推理。
+**MERCURY（水星）** 是毛毛象实验室 SOLAR 行星系列视觉主控的入门型号，基于瑞芯微 **RV1106G3**，主打低功耗、小尺寸的图像采集与边缘 AI 推理。
 
-> IRIS 系列命名：`IRIS-<数字>`，数字越大性能越高。IRIS-100 定位入门小巧，后续型号沿编号向上扩展（规划中的 IRIS-200 / IRIS-300 对应更高算力与接口）。本页参数来自 Rockchip 官方数据手册，产品级信息标注 `待确认`。
+> 命名规则：SOLAR 家族下按太阳系行星由内向外分级——水星 MERCURY（入门）→ 金星 VENUS（中端）→ 火星 MARS（高端）→ 木星 JUPITER（旗舰）。越靠内越小巧低功耗，越靠外越强。MERCURY 对应当前 RV1106G3。本页参数来自 Rockchip 官方数据手册，产品级信息标注 `待确认`。
 
 ## 规格参数
 
@@ -16,7 +16,7 @@ sidebar_position: 1
 
 | 项目 | 参数 |
 |---|---|
-| 系列型号 | IRIS-100 |
+| 系列型号 | SOLAR · MERCURY |
 | 主控芯片 | Rockchip RV1106G3 |
 | CPU | 单核 32-bit ARM Cortex-A7，NEON + FPU，32 KB I-Cache / 32 KB D-Cache / 128 KB L2 |
 | 片内存储 | SIP 2 Gb DDR3L（**256 MB**，16-bit） |
@@ -59,15 +59,16 @@ sidebar_position: 1
 
 ## 配套
 
-- 摄像头：[SC233 摄像头模组](./sc233-camera.md) — 推荐搭配
-- 组合方案：[IRIS-100 + SC233 组合套件](./combo-kit.md)
+- 摄像头：[LUNA 摄像头模组](./luna-camera.md) — 推荐搭配
+- 组合方案：[MERCURY + LUNA 组合套件](./combo-kit.md)
 - 开发：[SDK 与开发](../software/sdk.md)
 - 资料：[资料下载](../downloads.md)
 
 ## 系列路线图
 
-| 型号 | 状态 | 定位 |
-|---|---|---|
-| IRIS-100 | 当前 | RV1106G3，入门小巧，1 TOPS |
-| IRIS-200 | 规划 | 中端，更高算力/接口（待定） |
-| IRIS-300 | 规划 | 高端（待定） |
+| 型号 | 天体 | 状态 | 定位 |
+|---|---|---|---|
+| MERCURY | 水星 | 当前 | RV1106G3，入门小巧，1 TOPS |
+| VENUS | 金星 | 规划 | 中端，更高算力/接口（待定） |
+| MARS | 火星 | 规划 | 高端（待定） |
+| JUPITER | 木星 | 规划 | 旗舰（待定） |

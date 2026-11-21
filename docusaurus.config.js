@@ -3,7 +3,7 @@ const { themes } = require('prism-react-renderer');
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: '毛毛象实验室 · 产品文档',
-  tagline: 'RV1106G3 + SC233 摄像头模组',
+  tagline: 'SOLAR 行星系列视觉主控 + 卫星系列摄像头模组',
   favicon: 'img/favicon.svg',
 
   url: 'https://docs.maomaoxiang.com',
@@ -55,8 +55,8 @@ const config = {
             label: '产品',
             position: 'left',
             items: [
-              { type: 'doc', docId: 'product/iris-100-soc', label: 'IRIS-100 视觉主控' },
-              { type: 'doc', docId: 'product/sc233-camera', label: 'SC233 摄像头模组' },
+              { type: 'doc', docId: 'product/solar-mercury-soc', label: 'MERCURY 视觉主控' },
+              { type: 'doc', docId: 'product/luna-camera', label: 'LUNA 摄像头模组' },
               { type: 'doc', docId: 'product/combo-kit', label: '组合套件' },
             ],
           },

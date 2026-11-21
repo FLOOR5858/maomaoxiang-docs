@@ -1,14 +1,14 @@
 ---
-id: sc233-camera
-title: SC233 摄像头模组
+id: luna-camera
+title: LUNA 摄像头模组（SC233）
 sidebar_position: 2
 ---
 
-# SC233 摄像头模组
+# LUNA 摄像头模组（SC233）
 
-**SC233 摄像头模组** 是毛毛象实验室的视觉传感产品，基于思特威（SmartSens）SC233 系列 CMOS 图像传感器，面向 2 MP 级别图像采集，可与 [IRIS-100 视觉主控](./iris-100-soc.md) 直连搭配。
+**LUNA（月球）** 是毛毛象实验室 SOLAR 家族的视觉传感产品线。当前型号基于思特威（SmartSens）**SC233** 系列 CMOS 图像传感器，面向 2 MP 级别图像采集，可与 [MERCURY 视觉主控](./solar-mercury-soc.md) 直连搭配。
 
-> `SC233` 是传感器系列名，不同后缀差异很大。**请先确认模组上贴的实际型号**，再对照下表。模组级信息（镜头、FPC、尺寸）标注 `待确认`。
+> 命名说明：LUNA 是产品线名称，SC233 是传感器芯片型号（保留芯片名便于按型号检索）。`SC233` 后缀差异很大，**请先确认模组上贴的实际型号**，再对照下表。模组级信息（镜头、FPC、尺寸）标注 `待确认`。
 
 ## 传感器规格
 
@@ -47,11 +47,11 @@ SC233A 输出 10-bit RAW，支持 DVP 或 1/2-lane MIPI。推荐走 MIPI CSI 2-l
 ## 选型提示
 
 - 需要更高帧率或全局快门（运动场景、条码），确认是否为 **SC233HGS**；卷帘的 SC233A 不适合高速运动无拖影场景。
-- 与 IRIS-100 搭配时，SC233A 的 10-bit RAW + MIPI 1/2 lane 配置可与 RV1106G3 的 MIPI CSI 直连。
+- 与 MERCURY 搭配时，SC233A 的 10-bit RAW + MIPI 1/2 lane 配置可与 RV1106G3 的 MIPI CSI 直连。
 - 实际帧率受传感器、镜头、SDK 配置与内存带宽共同限制，ISP 输入上限不等于 2 MP 一定能跑满 60 fps。
 
 ## 配套
 
-- 主控：[IRIS-100 视觉 SoC 主控](./iris-100-soc.md)
-- 组合方案：[IRIS-100 + SC233 组合套件](./combo-kit.md)
+- 主控：[MERCURY 视觉 SoC 主控](./solar-mercury-soc.md)
+- 组合方案：[MERCURY + LUNA 组合套件](./combo-kit.md)
 - 资料：[资料下载](../downloads.md)

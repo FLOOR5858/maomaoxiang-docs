@@ -7,40 +7,49 @@ sidebar_position: 1
 
 # 毛毛象实验室 · 产品文档
 
-面向 AI 视觉与嵌入式图像采集的产品线：**IRIS 系列视觉主控** + **SC233 摄像头模组**。两类产品可单独选型，也可配成一套开箱即用的视觉方案。
+面向 AI 视觉与嵌入式图像采集的产品线，采用 **SOLAR 太阳系主题命名**：行星系列视觉主控（SoC）+ 卫星系列摄像头模组（Sensor）。两类产品可单独选型，也可配成一套开箱即用的视觉方案。
 
 > **资料状态说明**：芯片参数来自 Rockchip 与 SmartSens 公开数据手册（已注明来源）；标注 `待确认` 的字段为产品级信息，需根据实际 BOM 和样机补充。
 
+## 命名体系
+
+以太阳系为家族，用天体名承载产品定位与升级路线——越靠内的行星越小巧低功耗，越靠外性能越强；卫星围绕行星，对应摄像头与主控的搭配关系。
+
+| 类别 | 系列 | 说明 |
+|---|---|---|
+| 视觉主控 | 行星系列 | MERCURY（水星）→ VENUS（金星）→ MARS（火星）→ JUPITER（木星） |
+| 摄像头模组 | 卫星系列 | LUNA（月球），当前基于 SC233 传感器 |
+| 组合套件 | — | MERCURY + LUNA |
+
 ## 产品线
 
-### 视觉主控 · IRIS 系列
+### 视觉主控 · 行星系列
 
-`IRIS-<数字>`，数字越大性能越高，从入门小巧起步、逐级向上扩展。
+| 型号 | 天体 | 状态 | 主控 | 算力 | 定位 |
+|---|---|---|---|---|---|
+| MERCURY | 水星 | 当前 | Rockchip RV1106G3 | 最高 1 TOPS | 入门小巧，低功耗视觉采集 |
+| VENUS | 金星 | 规划 | 待定 | 待定 | 中端 |
+| MARS | 火星 | 规划 | 待定 | 待定 | 高端 |
+| JUPITER | 木星 | 规划 | 待定 | 待定 | 旗舰 |
 
-| 型号 | 状态 | 主控 | 算力 | 定位 |
-|---|---|---|---|---|
-| IRIS-100 | 当前 | Rockchip RV1106G3 | 最高 1 TOPS | 入门小巧，低功耗视觉采集 |
-| IRIS-200 | 规划 | 待定 | 待定 | 中端 |
-| IRIS-300 | 规划 | 待定 | 待定 | 高端 |
+详见 [MERCURY 视觉 SoC 主控](./product/solar-mercury-soc.md)。
 
-详见 [IRIS-100 视觉 SoC 主控](./product/iris-100-soc.md)。
+### 摄像头模组 · 卫星系列
 
-### 摄像头模组 · SC233 系列
-
-基于思特威 SC233 系列 CMOS，2 MP 级别，支持 MIPI / DVP 输出。
+LUNA 系列当前基于思特威 SC233 系列 CMOS，2 MP 级别，支持 MIPI / DVP 输出。
 
 | 型号 | 分辨率 | 快门 | 帧率 |
 |---|---|---|---|
 | SC233A | 2 MP，1928×1088 | 卷帘 | 1080p@60 fps |
 | SC233HGS | 2.3 MP，1928×1208 | 全局 | 1200p@120 fps |
 
-详见 [SC233 摄像头模组](./product/sc233-camera.md)。
+详见 [LUNA 摄像头模组](./product/luna-camera.md)。
 
 ### 组合套件
 
-[IRIS-100 + SC233 组合套件](./product/combo-kit.md) 把主控与摄像头配成一套，MIPI CSI 2-lane 直连，适合快速原型验证。
+[MERCURY + LUNA 组合套件](./product/combo-kit.md) 把主控与摄像头配成一套，MIPI CSI 2-lane 直连，适合快速原型验证。
 
-## 方案速览（IRIS-100）
+## 方案速览（MERCURY）
 
 | 项目 | 参数 | 来源 |
 |---|---|---|
@@ -61,8 +70,8 @@ sidebar_position: 1
 
 ## 快速导航
 
-- [IRIS-100 视觉主控](./product/iris-100-soc.md)
-- [SC233 摄像头模组](./product/sc233-camera.md)
+- [MERCURY 视觉主控](./product/solar-mercury-soc.md)
+- [LUNA 摄像头模组](./product/luna-camera.md)
 - [组合套件](./product/combo-kit.md)
 - [硬件与接口](./hardware/interfaces.md)
 - [SDK 与开发](./software/sdk.md)

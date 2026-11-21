@@ -6,7 +6,7 @@ const sidebars = {
       type: 'category',
       label: '产品',
       collapsed: false,
-      items: ['product/iris-100-soc', 'product/sc233-camera', 'product/combo-kit'],
+      items: ['product/solar-mercury-soc', 'product/luna-camera', 'product/combo-kit'],
     },
     {
       type: 'category',
