@@ -39,3 +39,18 @@ table {
 .navbar__title {
   font-weight: 700;
 }
+
+/* 产品门面首页：iframe 全屏，去掉 Docusaurus 默认外边距/滚动条 */
+body:has(iframe.mm-frame) {
+  margin: 0;
+  overflow: hidden;
+}
+iframe.mm-frame {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  border: 0;
+  display: block;
+  background: #f6f7f3;
+}

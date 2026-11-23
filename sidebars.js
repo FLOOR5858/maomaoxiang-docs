@@ -19,6 +19,7 @@ const sidebars = {
       items: ['software/sdk'],
     },
     'downloads',
+    'buy',
     'faq',
     'support',
   ],

@@ -1,0 +1,770 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Maomaoxiang Lab · AI Vision Hardware</title>
+<style>
+:root{
+  --green:#0A4A33;--green-2:#0E6B49;--green-3:#14805A;--gold:#C9A227;
+  --bg:#F6F7F3;--card:#FFFFFF;--ink:#16251F;--muted:#5F6E66;--line:#E2E8E3;
+  --shadow:0 6px 24px rgba(10,74,51,.08);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:"PingFang SC","Microsoft YaHei","Noto Sans SC",system-ui,-apple-system,sans-serif;background:var(--bg);color:var(--ink);line-height:1.7;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}button{font-family:inherit;cursor:pointer;border:none;background:none}
+.navbar{position:sticky;top:0;z-index:100;height:66px;background:rgba(255,255,255,.97);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);display:flex;align-items:center;padding:0 32px;gap:24px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:800;font-size:18px;color:var(--green);white-space:nowrap}
+.brand svg{width:32px;height:28px}
+.nav-links{display:flex;gap:4px;align-items:center;flex:1}
+.nav-link{position:relative;padding:9px 16px;border-radius:8px;font-size:15px;font-weight:600;color:var(--muted);transition:.2s;white-space:nowrap}
+.nav-link:hover{color:var(--green);background:#EFF5F1}
+.nav-link.active{color:var(--green);background:#E8F2EC}
+.nav-link.active::after{content:"";position:absolute;left:16px;right:16px;bottom:2px;height:2px;background:var(--green);border-radius:2px}
+.nav-dropdown{position:relative}
+.dropdown{display:none;position:absolute;top:46px;left:-8px;width:430px;background:#fff;border:1px solid var(--line);border-radius:14px;box-shadow:0 18px 48px rgba(10,74,51,.18);padding:14px;grid-template-columns:1fr 1fr;gap:8px}
+.dropdown.show{display:grid}
+.dd-group{grid-column:1/-1}
+.dd-label{font-size:11px;letter-spacing:1.2px;font-weight:800;color:var(--green-3);padding:6px 10px 4px;text-transform:uppercase}
+.dd-item{display:flex;justify-content:space-between;align-items:center;gap:8px;padding:9px 10px;border-radius:8px;font-size:13px;cursor:pointer;transition:.15s}
+.dd-item:hover{background:#EFF5F1;color:var(--green)}
+.dd-item small{font-size:10px;padding:2px 6px;border-radius:10px;background:#E8F2EC;color:var(--green);white-space:nowrap}
+.dd-item small.plan{background:#F2F2EE;color:#8A958D}
+.nav-right{display:flex;align-items:center;gap:14px;font-size:14px;color:var(--muted);white-space:nowrap}
+.nav-right a:hover{color:var(--green)}
+.nav-cta{background:var(--green);color:#fff!important;padding:9px 18px;border-radius:8px;font-weight:700;transition:.2s}
+.nav-cta:hover{background:var(--green-2)}
+.lang-switch{display:flex;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.lang-switch button{padding:6px 10px;font-size:12px;font-weight:700;color:var(--muted);background:#fff}
+.lang-switch button.on{background:var(--green);color:#fff}
+.view{display:none;animation:fade .3s ease}.view.active{display:block}
+@keyframes fade{from{opacity:0;transform:translateY(6px)}to{opacity:1;transform:none}}
+.hero{background:linear-gradient(135deg,#083826 0%,#0A4A33 55%,#0E6B49 100%);color:#fff;padding:60px 40px 66px;position:relative;overflow:hidden}
+.hero::after{content:"";position:absolute;right:-80px;top:-120px;width:520px;height:520px;border-radius:50%;background:radial-gradient(circle,rgba(201,162,39,.18),transparent 65%)}
+.hero-inner{max-width:1180px;margin:0 auto;position:relative;z-index:1}
+.eyebrow{display:inline-block;font-size:12px;letter-spacing:2px;color:#BFE3CE;border:1px solid rgba(191,227,206,.4);padding:5px 14px;border-radius:20px;margin-bottom:18px}
+.hero h1{font-size:42px;line-height:1.25;font-weight:800;letter-spacing:-.5px;margin-bottom:14px}
+.hero h1 span{color:var(--gold)}
+.hero p{font-size:16px;color:#D6E8DC;max-width:650px;margin-bottom:24px}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 24px;border-radius:10px;font-weight:700;font-size:14px;transition:.2s}
+.btn-primary{background:var(--gold);color:#241C05}.btn-primary:hover{background:#DCB52F;transform:translateY(-2px)}
+.btn-ghost{border:1px solid rgba(255,255,255,.5);color:#fff}.btn-ghost:hover{background:rgba(255,255,255,.12)}
+.btn-green{background:var(--green);color:#fff}.btn-green:hover{background:var(--green-2);transform:translateY(-2px)}
+.trust-bar{background:#fff;border-bottom:1px solid var(--line)}
+.trust-inner{max-width:1400px;margin:0 auto;padding:20px 32px;display:grid;grid-template-columns:repeat(4,1fr);gap:16px}
+.trust-item{display:flex;align-items:center;gap:12px}
+.trust-item svg{width:36px;height:36px;flex:none}
+.trust-item b{display:block;font-size:13px;color:var(--green);font-weight:800}
+.trust-item span{display:block;font-size:11px;color:var(--muted);margin-top:2px;line-height:1.4}
+.trust-note{max-width:1400px;margin:0 auto;padding:0 32px 10px;font-size:10px;color:#9AA69E;text-align:center}
+@media(max-width:820px){.trust-inner{grid-template-columns:1fr 1fr}}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+.section{padding:56px 0}
+.section-head{margin-bottom:24px}
+.section-head .kicker{color:var(--green-3);font-size:12px;font-weight:800;letter-spacing:2px;margin-bottom:6px}
+.section-head h2{font-size:28px;font-weight:800;letter-spacing:-.3px}
+.section-head p{color:var(--muted);margin-top:6px;max-width:720px;font-size:14px}
+.subhead{font-size:16px;font-weight:800;color:var(--green);margin:26px 0 14px;display:flex;align-items:center;gap:8px}
+.subhead::before{content:"";width:4px;height:17px;background:var(--gold);border-radius:2px}
+.product-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.product-card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow);cursor:pointer;transition:.22s}
+.product-card:hover{transform:translateY(-5px);box-shadow:0 14px 36px rgba(10,74,51,.14);border-color:#BFD8C8}
+.product-photo{height:150px;display:flex;align-items:center;justify-content:center;position:relative;background:linear-gradient(160deg,#EDF3EE,#DFEAE2)}
+.product-photo svg{width:86%;height:88%}
+.photo-tag{position:absolute;top:9px;left:9px;background:rgba(10,74,51,.85);color:#fff;font-size:10px;padding:3px 8px;border-radius:5px}
+.product-body{padding:16px}
+.product-body .cat{font-size:11px;color:var(--green-3);font-weight:700;letter-spacing:.6px}
+.product-body h3{font-size:18px;margin:4px 0 5px}
+.product-body .desc{color:var(--muted);font-size:12px;min-height:38px;line-height:1.5}
+.spec-mini{display:grid;grid-template-columns:1fr 1fr;gap:7px;margin:12px 0;border-top:1px dashed var(--line);border-bottom:1px dashed var(--line);padding:10px 0}
+.spec-mini div{font-size:12px}
+.spec-mini span{display:block;color:var(--muted);font-size:10px;margin-bottom:1px}
+.spec-mini b{color:var(--green);font-size:13px}
+.card-link{display:flex;align-items:center;justify-content:space-between;color:var(--green);font-weight:700;font-size:12px}
+.card-link .arrow{transition:.2s}.product-card:hover .arrow{transform:translateX(4px)}
+.badge{font-size:10px;padding:2px 7px;border-radius:10px;background:#E8F2EC;color:var(--green);font-weight:700}
+.badge.plan{background:#F1F2EE;color:#8A958D}
+.res-band{background:#0C3A29;color:#fff;padding:56px 0}
+.res-band .section-head h2,.res-band .section-head p{color:#fff}
+.res-band .section-head p{color:#BDD7C8}
+.res-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.res-card{background:rgba(255,255,255,.06);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:20px}
+.res-card .ico{font-size:22px;margin-bottom:8px}.res-card h4{font-size:16px;margin-bottom:10px}
+.res-card ul{list-style:none;font-size:13px;color:#CDE0D3}
+.res-card li{padding:6px 0;border-bottom:1px solid rgba(255,255,255,.08)}.res-card li:last-child{border:none}
+.res-card li::before{content:"›";color:var(--gold);margin-right:7px;font-weight:800}
+.footer{background:#07271B;color:#9CB8A8;padding:40px 32px 26px;font-size:13px}
+.footer-inner{max-width:1180px;margin:0 auto;display:flex;justify-content:space-between;gap:32px;flex-wrap:wrap}
+.footer b{color:#fff;display:block;margin-bottom:10px;font-size:14px}
+.footer a{display:block;padding:3px 0}.footer a:hover{color:var(--gold)}
+.footer-bottom{max-width:1180px;margin:24px auto 0;border-top:1px solid rgba(255,255,255,.1);padding-top:16px;font-size:11px}
+.layout{display:flex;align-items:flex-start;max-width:1180px;margin:0 auto;padding:0 32px;gap:28px}
+.sidebar{width:216px;flex:none;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 10px;position:sticky;top:82px;margin-top:24px;box-shadow:var(--shadow)}
+.side-title{font-size:11px;color:var(--muted);letter-spacing:1.4px;font-weight:800;padding:4px 10px 10px;text-transform:uppercase}
+.side-group{margin-bottom:6px}
+.side-group-label{font-size:12px;font-weight:800;color:var(--green);padding:8px 10px 5px}
+.side-item{display:flex;align-items:center;gap:7px;padding:7px 10px;border-radius:7px;font-size:13px;color:var(--muted);cursor:pointer;transition:.16s}
+.side-item:hover{background:#EFF5F1;color:var(--green)}
+.side-item.on{background:var(--green);color:#fff;font-weight:700}
+.side-item .dot{width:5px;height:5px;border-radius:50%;background:currentColor;opacity:.7}
+.main{flex:1;min-width:0;padding:24px 0 70px}
+.crumb{font-size:12px;color:var(--muted);margin-bottom:14px}.crumb a{color:var(--green-3)}.crumb a:hover{text-decoration:underline}
+.pd-head{display:flex;gap:24px;align-items:center;background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow)}
+.pd-photo{width:300px;flex:none;height:200px;background:linear-gradient(160deg,#EDF3EE,#DFEAE2);border-radius:10px;display:flex;align-items:center;justify-content:center}
+.pd-photo svg{width:90%;height:90%}.pd-info{flex:1}
+.pd-info .cat{color:var(--green-3);font-size:12px;font-weight:700;letter-spacing:.8px}
+.pd-info h1{font-size:28px;line-height:1.25;margin:5px 0 8px}
+.pd-info .lead{color:var(--muted);font-size:14px;margin-bottom:14px}
+.pd-price{display:flex;align-items:baseline;gap:10px;margin-bottom:14px}
+.pd-price .num{font-size:22px;color:var(--gold);font-weight:800}.pd-price .note{font-size:11px;color:var(--muted)}
+.glance{margin-top:24px}.glance h3,.detail h3,.panel h3{font-size:18px;margin-bottom:14px;padding-left:10px;border-left:4px solid var(--green)}
+.glance-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.glance-item{background:#fff;border:1px solid var(--line);border-radius:10px;padding:14px;box-shadow:var(--shadow)}
+.glance-item .lab{font-size:11px;color:var(--muted);margin-bottom:4px}
+.glance-item .val{font-size:17px;font-weight:800;color:var(--green)}
+.glance-item .sub{font-size:10px;color:#93A099;margin-top:3px}
+.panel{background:#fff;border:1px solid var(--line);border-radius:12px;padding:20px;margin-top:20px;box-shadow:var(--shadow)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{text-align:left;padding:9px 10px;border-bottom:1px solid var(--line)}
+th{background:#F2F7F3;color:var(--green);font-weight:700;width:34%}
+tr:last-child td,tr:last-child th{border-bottom:none}
+.res-mini-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:12px}
+.res-mini{border:1px solid var(--line);border-radius:9px;padding:13px;background:#FAFCFA}
+.res-mini h5{font-size:13px;color:var(--green);margin-bottom:7px}
+.res-mini a{display:block;font-size:12px;color:var(--muted);padding:3px 0}.res-mini a:hover{color:var(--green-3)}
+/* 配置器 */
+.config-box{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px;box-shadow:var(--shadow)}
+.cfg-cols{display:grid;grid-template-columns:1fr 34px 1fr;gap:12px;align-items:start}
+.cfg-col h4{font-size:14px;color:var(--green);margin-bottom:10px}
+.cfg-list{display:flex;flex-direction:column;gap:7px}
+.cfg-opt{border:1px solid var(--line);border-radius:9px;padding:10px 12px;cursor:pointer;transition:.16s;background:#fff}
+.cfg-opt:hover{border-color:#BFD8C8;background:#F7FBF8}
+.cfg-opt.on{border-color:var(--green);background:#EFF5F1;box-shadow:inset 3px 0 0 var(--green)}
+.cfg-opt b{font-size:13px}.cfg-opt small{display:block;color:var(--muted);font-size:11px;margin-top:2px}
+.cfg-plus{display:flex;align-items:center;justify-content:center;height:100%;font-size:26px;color:var(--gold);font-weight:800}
+.cfg-result{margin-top:20px;border:1px solid var(--line);border-radius:12px;padding:18px;background:#FAFCFA}
+.cfg-result .r-title{font-size:12px;color:var(--muted);margin-bottom:6px}
+.cfg-result .r-name{font-size:19px;font-weight:800;color:var(--green);margin-bottom:12px}
+.cfg-result .r-row{display:flex;gap:10px;align-items:flex-start;font-size:13px}
+.level{font-size:11px;font-weight:800;padding:3px 9px;border-radius:10px;white-space:nowrap}
+.level.ok{background:#DFF2E5;color:#0A6B33}.level.warn{background:#FFF3D6;color:#8A6500}.level.no{background:#FBE3E0;color:#A32B20}
+.cfg-note{margin-top:10px;padding:10px 12px;border-radius:8px;background:#fff;border:1px solid var(--line);font-size:12px;color:var(--muted)}
+.buy-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
+.buy-card{background:#fff;border:1px solid var(--line);border-radius:14px;overflow:hidden;box-shadow:var(--shadow)}
+.buy-top{display:flex;gap:14px;padding:16px;align-items:center}
+.buy-top .thumb{width:96px;height:72px;background:linear-gradient(160deg,#EDF3EE,#DFEAE2);border-radius:8px;display:flex;align-items:center;justify-content:center;flex:none}
+.buy-top .thumb svg{width:92%;height:92%}.buy-top h4{font-size:16px;margin-bottom:3px}.buy-top p{font-size:12px;color:var(--muted)}
+.buy-actions{display:flex;gap:8px;padding:0 16px 16px}
+.buy-btn{flex:1;text-align:center;padding:10px;border-radius:8px;font-weight:700;font-size:13px}
+.buy-taobao{background:#FF5000;color:#fff}.buy-taobao:hover{background:#E64800}
+.buy-other{background:#EFF5F1;color:var(--green);border:1px solid #CBE0D1}
+.embed-demo{border:2px dashed #B9CFC1;border-radius:10px;padding:20px;text-align:center;color:var(--muted);font-size:12px;background:#F8FBF9;margin-top:12px}
+.embed-demo b{color:var(--green);display:block;margin-bottom:5px;font-size:14px}
+.notice{background:#FFF8E8;border-left:4px solid var(--gold);padding:12px 16px;border-radius:8px;font-size:12px;color:#6B5715;margin-top:18px}
+.faq-item{background:#fff;border:1px solid var(--line);border-radius:10px;margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow)}
+.faq-q{padding:14px 18px;font-weight:700;display:flex;justify-content:space-between;cursor:pointer;font-size:14px}
+.faq-q span{color:var(--green-3)}
+.faq-a{padding:0 18px;max-height:0;overflow:hidden;transition:max-height .3s,padding .3s;color:var(--muted);font-size:13px}
+.faq-item.open .faq-a{max-height:240px;padding:0 18px 16px}
+.proto-bar{background:#FFF4D6;border-bottom:1px solid #E8D28C;padding:8px 32px;font-size:11px;color:#6B5715;text-align:center}
+@media(max-width:1000px){.product-grid,.res-grid,.glance-grid,.res-mini-grid,.buy-grid{grid-template-columns:1fr 1fr}.cfg-cols{grid-template-columns:1fr}.cfg-plus{display:none}.layout{flex-direction:column}.sidebar{position:static;width:100%}}
+@media(max-width:640px){.product-grid,.res-grid,.glance-grid,.res-mini-grid,.buy-grid{grid-template-columns:1fr}.navbar{padding:0 12px;gap:8px}.nav-link{padding:8px;font-size:13px}.nav-right a:not(.nav-cta){display:none}.hero h1{font-size:28px}.dropdown{width:90vw}}
+/* ===== v3 放大布局 ===== */
+.wrap,.layout{max-width:1400px}
+.hero{padding:76px 40px 84px}
+.hero h1{font-size:52px}
+.hero p{font-size:18px}
+.section{padding:66px 0}
+.section-head h2{font-size:34px}
+.product-grid{grid-template-columns:repeat(4,1fr)}
+.product-photo{height:190px}
+.product-body h3{font-size:20px}
+.product-body .desc{font-size:13px;min-height:42px}
+.spec-mini b{font-size:14px}
+.sidebar{width:230px}
+.pd-photo{width:360px;height:240px}
+.glance-grid{grid-template-columns:repeat(4,1fr)}
+@media(max-width:1200px){.product-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:1000px){.product-grid,.glance-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:640px){.product-grid,.glance-grid{grid-template-columns:1fr}}
+.st-badge{display:inline-block;font-size:10px;font-weight:800;padding:3px 9px;border-radius:10px;letter-spacing:.3px}
+.st-plan{background:#F1F2EE;color:#8A958D}.st-sampling{background:#FFF3D6;color:#8A6500}.st-mass{background:#DFF2E5;color:#0A6B33}.st-eol{background:#FBE3E0;color:#A32B20}
+.sku-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px}
+.sku-table th{background:#F2F7F3;color:var(--green);font-weight:700;text-align:left;padding:10px;width:auto!important}
+.sku-table td{padding:10px;border-bottom:1px solid var(--line)}
+.sku-table tr:last-child td{border-bottom:none}
+.sku-table tbody tr:hover{background:#FAFCFA}
+.sku-table .mid{font-family:Consolas,monospace;font-weight:700;color:var(--green)}
+.ver-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:12px}
+.ver-card{background:#fff;border:1px solid var(--line);border-radius:10px;padding:15px;box-shadow:var(--shadow)}
+.ver-card .k{font-size:11px;color:var(--muted);margin-bottom:6px}
+.ver-card .v{font-size:18px;font-weight:800;color:var(--green)}
+.ver-card .sub{font-size:10px;color:#93A099;margin-top:4px}
+.lifecycle-bar{display:flex;gap:0;margin-top:14px;font-size:11px;font-weight:700}
+.lifecycle-bar span{flex:1;text-align:center;padding:7px 4px;background:#F1F2EE;color:#8A958D;border-right:1px solid #fff}
+.lifecycle-bar span:last-child{border-right:none}
+.lifecycle-bar span.cur{background:var(--green);color:#fff}
+.lifecycle-bar span.past{background:#DFF2E5;color:#0A6B33}
+</style>
+</head>
+<body>
+
+<!-- 导航 -->
+<div class="navbar">
+  <a class="brand" onclick="showView('home')">
+    <svg viewBox="45 0 480 400" xmlns="http://www.w3.org/2000/svg"><g fill="none" stroke="#0A4A33" stroke-width="34" stroke-linecap="round" stroke-linejoin="round"><path d="M132 105 L272 20 L392 20 L498 126 L505 345 L430 345 L430 238 L348 238 L348 345 L240 345 L240 260 L132 260 Z"/><path d="M132 165 C160 212, 195 220, 212 194" stroke-width="22"/><path d="M132 260 C84 268, 64 308, 72 344 L72 376 L138 376"/><circle cx="206" cy="108" r="16" fill="#0A4A33" stroke="none"/></g></svg>
+    <span data-i18n="brand">毛毛象实验室</span>
+  </a>
+  <div class="nav-links">
+    <div class="nav-dropdown">
+      <button class="nav-link active" id="productBtn" onclick="toggleDropdown(event)"><span data-i18n="nav_product">产品</span> ▾</button>
+      <div class="dropdown" id="dropdown"></div>
+    </div>
+    <button class="nav-link" data-view="docs" onclick="showView('docs')" data-i18n="nav_docs">资料</button>
+    <button class="nav-link" data-view="buy" onclick="showView('buy')" data-i18n="nav_buy">购买</button>
+    <button class="nav-link" data-view="faq" onclick="showView('faq')" data-i18n="nav_faq">FAQ</button>
+  </div>
+  <div class="nav-right">
+    <div class="lang-switch"><button data-lang="zh" onclick="setLang('zh')">中</button><button class="on" data-lang="en" onclick="setLang('en')">EN</button></div>
+    <a href="https://blog.maomaoxiang.com" target="_blank" data-i18n="nav_blog">技术博客</a>
+    <a class="nav-cta" onclick="showView('buy')" data-i18n="nav_buycta">立即购买</a>
+  </div>
+</div>
+
+<!-- 首页 -->
+<div class="view active" id="view-home">
+  <div class="hero"><div class="hero-inner">
+    <div class="eyebrow" data-i18n="hero_eyebrow">SOLAR 行星系列 · 边缘 AI 视觉</div>
+    <h1><span data-i18n="hero_h1a">为边缘 AI 视觉而造</span><br><span data-i18n="hero_h1b">主控 · 摄像头 · 自由选装</span></h1>
+    <p data-i18n="hero_p">从入门 RV1106 到旗舰 RK3588，从全局快门 SC233HGS 到一英寸大底 IMX989。选一颗主控、配一颗 sensor，快速搭起你的视觉方案。</p>
+    <div class="hero-btns">
+      <button class="btn btn-primary" onclick="document.getElementById('products').scrollIntoView()" data-i18n="hero_btn1">浏览产品 →</button>
+      <button class="btn btn-ghost" onclick="document.getElementById('configurator').scrollIntoView()" data-i18n="hero_btn2">主控 + 模组互选</button>
+    </div>
+  </div></div>
+  <div class="trust-bar"><div class="trust-inner">
+    <div class="trust-item">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#0A4A33" stroke-width="2.4"><rect x="13" y="13" width="22" height="22" rx="3"/><rect x="20" y="20" width="8" height="8" rx="1"/><path d="M18 13V8M30 13V8M18 40v-5M30 40v-5M13 18H8M13 30H8M40 18h-5M40 30h-5" stroke-linecap="round"/></svg>
+      <div><b data-i18n="trust_oshw">Open Source Hardware</b><span data-i18n="trust_oshw_sub">开源硬件 · 原理图 / SDK 开放</span></div>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#0A4A33" stroke-width="2.4"><circle cx="24" cy="24" r="16"/><path d="M8 24h32M24 8c5 5 5 27 0 32M24 8c-5 5-5 27 0 32" stroke-linecap="round"/></svg>
+      <div><b data-i18n="trust_ship">Global Shipping</b><span data-i18n="trust_ship_sub">全球发货 · 支持跨境配送</span></div>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#0A4A33" stroke-width="2.4"><path d="M10 34l14-20 14 20H10z" stroke-linejoin="round"/><path d="M24 22v7M24 32v.5" stroke-linecap="round"/></svg>
+      <div><b data-i18n="trust_support">Engineer Support</b><span data-i18n="trust_support_sub">工程师支持 · 文档 / 社区答疑</span></div>
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 48 48" fill="none" stroke="#0A4A33" stroke-width="2.4"><path d="M6 20l18-11 18 11-18 11L6 20z" stroke-linejoin="round"/><path d="M12 24v9c0 3 6 6 12 6s12-3 12-6v-9" stroke-linecap="round"/></svg>
+      <div><b data-i18n="trust_docs">Full Documentation</b><span data-i18n="trust_docs_sub">完整资料 · 参数 / 尺寸 / SDK</span></div>
+    </div>
+  </div></div>
+  <div class="trust-note" data-i18n="trust_note">* 卖点图标为原型占位文案，请以实际可兑现的服务为准（开源范围、发货国家/地区需确认）</div>
+  <div class="layout home-layout">
+    <aside class="sidebar" id="quickSidebar"></aside>
+    <div class="main">
+      <div class="section" id="products">
+        <div class="section-head">
+          <div class="kicker" data-i18n="kicker_products">PRODUCTS / 产品</div>
+          <h2 data-i18n="h_products">按性能分级，按需求选装</h2>
+          <p data-i18n="p_products">点开实物图看规格与尺寸。主控从低到高四档，摄像头从当前量产到规划中的高端 sensor，都可以自由搭配。</p>
+        </div>
+        <div class="subhead" data-i18n="sub_soc">视觉主控 · 行星系列</div>
+        <div class="product-grid" id="socCards"></div>
+        <div class="subhead" data-i18n="sub_cam">摄像头模组 · 卫星 / 恒星系列</div>
+        <div class="product-grid" id="camCards"></div>
+      </div>
+      <div class="section" id="configurator" style="padding-top:0">
+        <div class="section-head">
+          <div class="kicker" data-i18n="kicker_cfg">BUILD YOUR KIT / 自由搭配</div>
+          <h2 data-i18n="h_cfg">主控和模组可以相互选装</h2>
+          <p data-i18n="p_cfg">左边选一颗主控，右边选一颗摄像头模组，立刻看到组合名称、兼容状态和搭配建议。</p>
+        </div>
+        <div class="config-box">
+          <div class="cfg-cols">
+            <div class="cfg-col"><h4 data-i18n="cfg_soc">① 选择主控</h4><div class="cfg-list" id="cfgSocList"></div></div>
+            <div class="cfg-plus">+</div>
+            <div class="cfg-col"><h4 data-i18n="cfg_cam">② 选择摄像头模组</h4><div class="cfg-list" id="cfgCamList"></div></div>
+          </div>
+          <div class="cfg-result" id="cfgResult"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="res-band"><div class="wrap">
+    <div class="section-head"><div class="kicker" data-i18n="kicker_res">RESOURCES / 资料</div><h2 data-i18n="h_res">往下拉：硬件、软件、SDK 都在这里</h2><p data-i18n="p_res">选型之后需要的资料按类别集中，不用在页面之间来回跳。</p></div>
+    <div class="res-grid">
+      <div class="res-card"><div class="ico">🔧</div><h4 data-i18n="res_hw_title">硬件资料</h4><ul><li data-i18n="r1">原理图 PDF</li><li data-i18n="r2">PCB 尺寸图 / 装配图</li><li data-i18n="r3">引脚定义与接口说明</li><li data-i18n="r4">摄像头模组规格书</li></ul></div>
+      <div class="res-card"><div class="ico">💻</div><h4 data-i18n="res_sw_title">软件资料</h4><ul><li data-i18n="r5">系统镜像（Buildroot / Ubuntu）</li><li data-i18n="r6">烧录工具与教程</li><li data-i18n="r7">设备树与驱动配置</li><li data-i18n="r8">摄像头调试（IQ / 抓图）</li></ul></div>
+      <div class="res-card"><div class="ico">📦</div><h4 data-i18n="res_sdk_title">SDK 与开发</h4><ul><li data-i18n="r9">RV1106 / RV1126 SDK 源码</li><li data-i18n="r10">RKNN / RKLLM 模型工具</li><li data-i18n="r11">示例 Demo 与模型</li><li data-i18n="r12">版本更新日志</li></ul></div>
+    </div>
+    <div style="text-align:center;margin-top:24px"><button class="btn btn-ghost" onclick="showView('docs')" data-i18n="go_docs">进入完整资料中心 →</button></div>
+  </div></div>
+</div>
+
+<!-- 产品详情 -->
+<div class="view" id="view-product"><div class="layout">
+  <aside class="sidebar" id="detailSidebar"></aside>
+  <div class="main" id="pd-main"></div>
+</div></div>
+
+<!-- 资料中心 -->
+<div class="view" id="view-docs"><div class="layout">
+  <aside class="sidebar" id="docsSidebar"></aside>
+  <div class="main">
+    <div class="crumb"><a onclick="showView('home')" data-i18n="crumb_home">首页</a> / <span data-i18n="nav_docs">资料</span></div>
+    <h1 style="font-size:28px;margin-bottom:6px" data-i18n="h_docs">资料中心</h1>
+    <p style="color:var(--muted);margin-bottom:20px;font-size:14px" data-i18n="p_docs">所有硬件、软件与 SDK 资料集中在这里，点击即可下载或跳转。</p>
+    <div class="panel" id="docsTables"></div>
+  </div>
+</div></div>
+
+<!-- 购买 -->
+<div class="view" id="view-buy"><div class="layout">
+  <aside class="sidebar" id="buySidebar"></aside>
+  <div class="main">
+    <div class="crumb"><a onclick="showView('home')" data-i18n="crumb_home">首页</a> / <span data-i18n="nav_buy">购买</span></div>
+    <h1 style="font-size:28px;margin-bottom:6px" data-i18n="h_buy">购买</h1>
+    <p style="color:var(--muted);margin-bottom:6px;font-size:14px" data-i18n="p_buy">选好型号后点对应按钮跳转到店铺。每个商品都可以单独配置链接。</p>
+    <div class="trust-bar" style="border:1px solid var(--line);border-radius:12px;margin:14px 0 4px">
+      <div class="trust-inner" style="grid-template-columns:repeat(2,1fr);padding:16px 20px">
+        <div class="trust-item"><svg viewBox="0 0 48 48" fill="none" stroke="#0A4A33" stroke-width="2.4"><circle cx="24" cy="24" r="16"/><path d="M8 24h32M24 8c5 5 5 27 0 32M24 8c-5 5-5 27 0 32" stroke-linecap="round"/></svg><div><b data-i18n="trust_ship">Global Shipping</b><span data-i18n="trust_ship_sub">全球发货 · 支持跨境配送</span></div></div>
+        <div class="trust-item"><svg viewBox="0 0 48 48" fill="none" stroke="#0A4A33" stroke-width="2.4"><rect x="13" y="13" width="22" height="22" rx="3"/><rect x="20" y="20" width="8" height="8" rx="1"/><path d="M18 13V8M30 13V8M18 40v-5M30 40v-5M13 18H8M13 30H8M40 18h-5M40 30h-5" stroke-linecap="round"/></svg><div><b data-i18n="trust_oshw">Open Source Hardware</b><span data-i18n="trust_oshw_sub">开源硬件 · 原理图 / SDK 开放</span></div></div>
+      </div>
+    </div>
+    <div class="buy-grid" id="buyCards"></div>
+    <div class="panel"><h3 data-i18n="buy_embed_title">嵌入店铺展示区（示意）</h3>
+      <p style="color:var(--muted);font-size:12px;margin:6px 0" data-i18n="buy_embed_tip">若平台允许 iframe，可在这里嵌入店铺或商品页；否则放店铺截图 + 跳转按钮。</p>
+      <div class="embed-demo"><b data-i18n="embed_title">iframe 嵌入区域</b><span data-i18n="embed_desc">这里放淘宝店铺 / 商品页 / 独立站的嵌入代码（实际效果取决于目标平台是否允许被嵌入）</span></div>
+    </div>
+    <div class="notice" data-i18n="buy_notice">⚠️ 技术提示：淘宝等平台通常用 X-Frame-Options 禁止被 iframe 嵌入，强行嵌会显示空白。更稳妥的做法是「商品图 + 价格 + 跳转按钮」，把链接写进配置即可随时更换。</div>
+  </div>
+</div></div>
+
+<!-- FAQ -->
+<div class="view" id="view-faq"><div class="layout">
+  <aside class="sidebar" id="faqSidebar"></aside>
+  <div class="main">
+    <div class="crumb"><a onclick="showView('home')" data-i18n="crumb_home">首页</a> / FAQ</div>
+    <h1 style="font-size:28px;margin-bottom:20px" data-i18n="h_faq">常见问题</h1>
+    <div id="faqList"></div>
+  </div>
+</div></div>
+
+<!-- 页脚 -->
+<div class="footer"><div class="footer-inner">
+  <div><b data-i18n="brand">毛毛象实验室</b><span data-i18n="foot_slogan" data-i18n-html>面向工程师的 AI 视觉硬件<br>www.maomaoxiang.com</span></div>
+  <div><b data-i18n="foot_product">产品</b><a onclick="showView('home')" data-i18n="p_all">全部产品</a><a onclick="showProduct('m1106')">MERCURY-1106</a><a onclick="showProduct('sc233hgs')">LUNA-SC233HGS</a></div>
+  <div><b data-i18n="foot_resource">资源</b><a onclick="showView('docs')" data-i18n="nav_docs">资料</a><a onclick="showView('buy')" data-i18n="nav_buy">购买</a><a onclick="showView('faq')">FAQ</a></div>
+  <div><b data-i18n="foot_sites">站点</b><a href="https://www.maomaoxiang.com" target="_blank">www · 产品</a><a href="https://docs.maomaoxiang.com" target="_blank">docs · 参数文档</a><a href="https://blog.maomaoxiang.com" target="_blank" data-i18n="nav_blog">blog · 技术博客</a><a href="https://github.com/FLOOR5858" target="_blank">GitHub</a></div>
+</div><div class="footer-bottom" data-i18n="foot_copy">© 2026 毛毛象实验室 · 改版原型 v2（未上线）</div></div>
+
+<script>
+/* ============ 双语字典 ============ */
+const I18N={
+ zh:{
+  proto_bar:"📌 改版原型 v5：默认英文，中文在网址后加 /cn；卡片简介已收进详情页；首屏加卖点图标。数据为演示占位，未上传 GitHub。",
+  brand:"毛毛象实验室",nav_product:"产品",nav_docs:"资料",nav_buy:"购买",nav_faq:"FAQ",nav_blog:"技术博客",nav_buycta:"立即购买",
+  dd_soc:"视觉主控 · 行星系列",dd_cam:"摄像头模组 · 卫星/恒星",dd_kit:"组合与选装",dd_all:"全部产品",
+  tag_current:"当前",tag_plan:"规划",
+  hero_eyebrow:"SOLAR 行星系列 · 边缘 AI 视觉",hero_h1a:"为边缘 AI 视觉而造",hero_h1b:"主控 · 摄像头 · 自由选装",
+  hero_p:"从入门 RV1106 到旗舰 RK3588，从全局快门 SC233HGS 到一英寸大底 IMX989。选一颗主控、配一颗 sensor，快速搭起你的视觉方案。",
+  hero_btn1:"浏览产品 →",hero_btn2:"主控 + 模组互选",
+  side_quick:"产品快速浏览",side_soc:"视觉主控",side_cam:"摄像头模组",side_kit:"组合 / 选装",
+  kicker_products:"PRODUCTS / 产品",h_products:"按性能分级，按需求选装",
+  p_products:"点开实物图看规格与尺寸。主控从低到高四档，摄像头从当前量产到规划中的高端 sensor，都可以自由搭配。",
+  sub_soc:"视觉主控 · 行星系列",sub_cam:"摄像头模组 · 卫星 / 恒星系列",viewspec:"查看规格 / 尺寸 →",
+  status_available:"可购买",status_planning:"规划中",status_sampling:"已出样",
+  kicker_cfg:"BUILD YOUR KIT / 自由搭配",h_cfg:"主控和模组可以相互选装",p_cfg:"左边选一颗主控，右边选一颗摄像头模组，立刻看到组合名称、兼容状态和搭配建议。",
+  cfg_soc:"① 选择主控",cfg_cam:"② 选择摄像头模组",cfg_result:"你的组合",cfg_compat:"兼容性",
+  cfg_ok:"✓ 推荐搭配",cfg_warn:"⚠ 需验证",cfg_no:"✗ 不建议",cfg_note_label:"搭配建议",cfg_empty:"请先在上方选择主控和模组",
+  kicker_res:"RESOURCES / 资料",h_res:"往下拉：硬件、软件、SDK 都在这里",p_res:"选型之后需要的资料按类别集中，不用在页面之间来回跳。",
+  res_hw_title:"硬件资料",res_sw_title:"软件资料",res_sdk_title:"SDK 与开发",go_docs:"进入完整资料中心 →",
+  r1:"原理图 PDF",r2:"PCB 尺寸图 / 装配图",r3:"引脚定义与接口说明",r4:"摄像头模组规格书",
+  r5:"系统镜像（Buildroot / Ubuntu）",r6:"烧录工具与教程",r7:"设备树与驱动配置",r8:"摄像头调试（IQ / 抓图）",
+  r9:"RV1106 / RV1126 SDK 源码",r10:"RKNN / RKLLM 模型工具",r11:"示例 Demo 与模型",r12:"版本更新日志",
+  crumb_home:"首页",h_docs:"资料中心",p_docs:"所有硬件、软件与 SDK 资料集中在这里，点击即可下载或跳转。",
+  h_buy:"购买",p_buy:"选好型号后点对应按钮跳转到店铺。每个商品都可以单独配置链接。",
+  buy_taobao:"🛒 去淘宝购买",buy_other:"其他链接 ↗",buy_embed_title:"嵌入店铺展示区（示意）",
+  buy_embed_tip:"若平台允许 iframe，可在这里嵌入店铺或商品页；否则放店铺截图 + 跳转按钮。",
+  embed_title:"iframe 嵌入区域",embed_desc:"这里放淘宝店铺 / 商品页 / 独立站的嵌入代码（实际效果取决于目标平台是否允许被嵌入）",
+  buy_notice:"⚠️ 技术提示：淘宝等平台通常用 X-Frame-Options 禁止被 iframe 嵌入，强行嵌会显示空白。更稳妥的做法是「商品图 + 价格 + 跳转按钮」，把链接写进配置即可随时更换。",
+  h_faq:"常见问题",faq_buy:"购买与发货",faq_flash:"烧录与软件",faq_hw:"硬件与接口",faq_after:"售后政策",
+  faq_all:"全部问题",buy_kits:"组合套件",buy_shipping:"发货与运费",buy_after:"售后政策",
+  h_glance:"一眼看懂 · 关键参数",h_specs:"详细规格",h_dim:"尺寸与机械",h_res:"资料下载（硬件 / 软件 / SDK）",
+  dim_tip:"PCB 外形图 / 安装孔位 / 摄像头高度（待补充后放这里，支持图片与 PDF）",
+  buy_now:"立即购买 →",price_tbd:"¥ 待定价",price_note:"价格与购买链接待确认",
+  foot_slogan:"面向工程师的 AI 视觉硬件<br>www.maomaoxiang.com",foot_product:"产品",foot_resource:"资源",foot_community:"社区",foot_sites:"站点",
+  p_all:"全部产品",foot_copy:"© 2026 毛毛象实验室 · Maomaoxiang Lab",
+  th_item:"资料",th_desc:"说明",th_link:"链接",tbd:"待确认",
+  h_sku:"型号总览 · SKU 对照表",p_sku:"同一产品下不同芯片版本与板型形态，一行一个型号。点型号看对应资料。",
+  th_sku:"型号",th_chip:"芯片",th_form:"板型形态",th_status:"状态",th_price:"价格",
+  h_versions:"版本信息",p_versions:"三条版本线各自独立升级，方便你核对固件与文档是否匹配手里的硬件。",
+  v_hw:"硬件版本",v_sdk:"SDK 版本",v_doc:"文档更新",v_chip:"芯片版本",v_form:"板型",
+  st_plan:"规划中",st_sample:"样品",st_mass:"量产",st_eol:"停产",
+  lifecycle:"产品状态：规划 → 样品 → 量产 → 停产。停产页面保留供老客户查资料。",
+  trust_oshw:"Open Source Hardware · 开源硬件",trust_oshw_sub:"原理图 / SDK 开放",
+  trust_ship:"Global Shipping · 全球发货",trust_ship_sub:"支持跨境配送",
+  trust_support:"Engineer Support · 工程师支持",trust_support_sub:"文档 / 社区答疑",
+  trust_docs:"Full Documentation · 完整资料",trust_docs_sub:"参数 / 尺寸 / SDK",
+  trust_note:"* 卖点图标为原型占位文案，请以实际可兑现的服务为准（开源范围、发货国家/地区需确认）"
+ },
+ en:{
+  proto_bar:"📌 Prototype v5: English by default; add /cn to the URL for Chinese. Card descriptions moved into detail pages; trust badges added to the hero. Placeholder data, not uploaded to GitHub.",
+  brand:"Maomaoxiang Lab",nav_product:"Products",nav_docs:"Resources",nav_buy:"Buy",nav_faq:"FAQ",nav_blog:"Blog",nav_buycta:"Buy Now",
+  dd_soc:"Vision SoC · Planetary",dd_cam:"Camera Modules · Moons & Stars",dd_kit:"Kits & Mix-Match",dd_all:"All Products",
+  tag_current:"Current",tag_plan:"Planned",
+  hero_eyebrow:"SOLAR Planetary Series · Edge AI Vision",hero_h1a:"Built for Edge AI Vision",hero_h1b:"SoC · Camera · Mix & Match",
+  hero_p:"From entry-level RV1106 to flagship RK3588, from global-shutter SC233HGS to 1-inch IMX989. Pick an SoC, pair a sensor, and build your vision solution fast.",
+  hero_btn1:"Browse Products →",hero_btn2:"SoC + Camera Matcher",
+  side_quick:"Quick Browse",side_soc:"Vision SoC",side_cam:"Camera Modules",side_kit:"Kits / Matcher",
+  kicker_products:"PRODUCTS",h_products:"Graded by performance, mixed to fit your needs",
+  p_products:"Click a product photo for specs and dimensions. Four SoC tiers from low to high, cameras from current mass production to planned high-end sensors all mix and match.",
+  sub_soc:"Vision SoC · Planetary Series",sub_cam:"Camera Modules · Moon / Star Series",viewspec:"View specs / dimensions →",
+  status_available:"Available",status_planning:"Planned",status_sampling:"Sampling",
+  kicker_cfg:"BUILD YOUR KIT",h_cfg:"SoCs and cameras can be paired freely",p_cfg:"Pick an SoC on the left and a camera module on the right to see the combo name, compatibility and pairing notes instantly.",
+  cfg_soc:"① Choose SoC",cfg_cam:"② Choose Camera Module",cfg_result:"Your Combo",cfg_compat:"Compatibility",
+  cfg_ok:"✓ Recommended",cfg_warn:"⚠ Needs validation",cfg_no:"✗ Not recommended",cfg_note_label:"Pairing notes",cfg_empty:"Please choose an SoC and a camera above",
+  kicker_res:"RESOURCES",h_res:"Scroll down: hardware, software and SDK",p_res:"Everything you need after selection, grouped in one place.",
+  res_hw_title:"Hardware",res_sw_title:"Software",res_sdk_title:"SDK & Development",go_docs:"Go to Resource Center →",
+  r1:"Schematic PDF",r2:"PCB dimensions / assembly drawing",r3:"Pinout & interface guide",r4:"Camera module datasheet",
+  r5:"System image (Buildroot / Ubuntu)",r6:"Flashing tools & tutorial",r7:"Device tree & driver config",r8:"Camera tuning (IQ / capture)",
+  r9:"RV1106 / RV1126 SDK source",r10:"RKNN / RKLLM model tools",r11:"Demo & sample models",r12:"Release notes",
+  crumb_home:"Home",h_docs:"Resource Center",p_docs:"All hardware, software and SDK resources in one place — click to download or jump.",
+  h_buy:"Buy",p_buy:"Pick your model and click the button to visit the store. Each product link is configurable.",
+  buy_taobao:"🛒 Buy on Taobao",buy_other:"Other link ↗",buy_embed_title:"Embedded store area (demo)",
+  buy_embed_tip:"If the platform allows iframe, embed the store here; otherwise use a screenshot + jump button.",
+  embed_title:"iframe embed area",embed_desc:"Store / product / independent site embed code here (depends on whether the target platform allows embedding)",
+  buy_notice:"⚠️ Note: Taobao and similar sites usually block iframe embedding via X-Frame-Options. A product photo + price + jump button is more reliable — links are configurable anytime.",
+  h_faq:"FAQ",faq_buy:"Purchase & Shipping",faq_flash:"Flashing & Software",faq_hw:"Hardware & Interfaces",faq_after:"After-sales",
+  faq_all:"All questions",buy_kits:"Combo Kits",buy_shipping:"Shipping",buy_after:"After-sales",
+  h_glance:"Key Specs at a Glance",h_specs:"Full Specifications",h_dim:"Dimensions & Mechanical",h_res:"Downloads (HW / SW / SDK)",
+  dim_tip:"PCB outline / mounting holes / camera height (add images and PDFs here when available)",
+  buy_now:"Buy Now →",price_tbd:"¥ TBD",price_note:"Price and purchase link to be confirmed",
+  foot_slogan:"AI vision hardware for engineers<br>www.maomaoxiang.com",foot_product:"Products",foot_resource:"Resources",foot_community:"Community",foot_sites:"Sites",
+  p_all:"All Products",foot_copy:"© 2026 Maomaoxiang Lab",
+  th_item:"Resource",th_desc:"Description",th_link:"Link",tbd:"TBD",
+  h_sku:"Model overview · SKU table",p_sku:"Different chip versions and board forms under one product, one row per model. Click a model for its resources.",
+  th_sku:"Model",th_chip:"Chip",th_form:"Board form",th_status:"Status",th_price:"Price",
+  h_versions:"Version info",p_versions:"Three independent version lines help you match firmware and docs to your hardware.",
+  v_hw:"Hardware",v_sdk:"SDK",v_doc:"Doc updated",v_chip:"Chip version",v_form:"Board form",
+  st_plan:"Planned",st_sample:"Sampling",st_mass:"Mass production",st_eol:"EOL",
+  lifecycle:"Lifecycle: planned → sampling → mass production → EOL. EOL pages stay for existing customers.",
+  trust_oshw:"Open Source Hardware",trust_oshw_sub:"Open schematics / SDK",
+  trust_ship:"Global Shipping",trust_ship_sub:"Worldwide delivery supported",
+  trust_support:"Engineer Support",trust_support_sub:"Docs / community Q&A",
+  trust_docs:"Full Documentation",trust_docs_sub:"Specs / dimensions / SDK",
+  trust_note:"* Trust badges are placeholder copy for the prototype. Confirm what can actually be delivered (open-source scope, shipping countries/regions)."
+ }
+};
+/* ===== 语言路由：默认英文；中文在网址后加 /cn =====
+   真实站点用 Docusaurus i18n：默认 locale=en（网址 /），中文 locale=cn（网址 /cn/）。
+   原型是单文件 HTML，用 location.pathname 是否含 /cn 来模拟，切换时同步更新地址栏。 */
+function detectLangFromUrl(){
+  try{
+    /* 优先读 URL 参数 ?lang=zh / ?lang=en（iframe 嵌入时用这个切换） */
+    var q=new URLSearchParams(location.search).get('lang');
+    if(q==='zh'||q==='cn') return 'zh';
+    if(q==='en') return 'en';
+    /* 兜底：直接打开时按 pathname 是否含 /cn 判断 */
+    if(/(^|\/)cn\/?$/.test(location.pathname)) return 'zh';
+  }catch(e){}
+  return 'en';
+}
+let lang=detectLangFromUrl();
+
+/* ===== 发布开关（只存在于代码里，网页界面不显示）=====
+   这是给你自己用的"开发宏"：访客看不到、也无法操作。
+   要发布/隐藏产品，只改下面 true / false，然后重新上传网页即可：
+     true  = 显示（已发布）
+     false = 隐藏（规划中，不对外展示）
+   真实站点落地时，把这张表写进配置文件，生成侧栏/卡片/下拉菜单时按其过滤
+   （Docusaurus 也可用 frontmatter 的 draft: true 实现同样效果）。 */
+const DEFAULT_PUBLISH={
+ 'm1106':true,      /* MERCURY-1106    已出样 */
+ 'v1126':false,     /* VENUS-1126      规划中 */
+ 'rk3576':false,    /* MARS-3576       规划中 */
+ 'rk3588':false,    /* JUPITER-3588    规划中 */
+ 'sc233hgs':true,   /* LUNA-SC233HGS   当前搭配 */
+ 'imx586ff':false,  /* IO-IMX586-FF    规划中 */
+ 'imx586zoom':false,/* IO-IMX586-T     规划中 */
+ 'imx678':false,    /* SIRIUS-IMX678   规划中 */
+ 'imx989':false     /* GANYMEDE-IMX989 规划中 */
+};
+const PUBLISH={...DEFAULT_PUBLISH};
+function isLive(k){return PUBLISH[k]!==false;}
+function visibleSoc(){return SOC.filter(p=>isLive(p.key));}
+function visibleCam(){return CAM.filter(p=>isLive(p.key));}
+function t(k){return (I18N[lang]&&I18N[lang][k])||k;}
+function applyI18n(){
+  document.documentElement.lang=(lang==='zh'?'zh-CN':'en');
+  document.querySelectorAll('[data-i18n]').forEach(el=>{const k=el.getAttribute('data-i18n');const v=t(k);if(el.hasAttribute('data-i18n-html'))el.innerHTML=v;else el.textContent=v;});
+  document.querySelectorAll('.lang-switch button').forEach(b=>b.classList.toggle('on',b.dataset.lang===lang));
+}
+function setLang(l){
+  lang=l;
+  // 同步地址栏：中文 → /cn，英文 → 去掉 /cn
+  try{
+    let p=location.pathname.replace(/\/cn\/?$/,'')||'/';
+    if(l==='zh')p=p.replace(/\/$/,'')+'/cn';
+    history.replaceState(null,'',p+location.search+location.hash);
+  }catch(e){}
+  // 嵌入 iframe 时，通知外层页面把地址栏同步到 / 或 /cn
+  try{ if(window.parent!==window) window.parent.postMessage({type:'mm-lang',lang:l},'*'); }catch(e){}
+  applyI18n();
+  renderAll();
+}
+
+/* ============ 产品数据 ============ */
+const G=(zh,en,v,sub)=>({zh,en,v,sub:sub||''});
+const SOC=[
+ {key:'m1106',name:'MERCURY-1106',planet:'水星 / Mercury',catZh:'RV1106 系列 · 入门',catEn:'RV1106 Series · Entry',
+  descZh:'基于瑞芯微 RV1106 系列的视觉主控，1 TOPS NPU + 256MB 内存，低功耗小尺寸。提供 BTB / 邮票孔核心板与开发板多种形态，已出样。',
+  descEn:'Vision SoC based on Rockchip RV1106 series, 1 TOPS NPU + 256MB RAM. Available as BTB / stamp-hole core board and dev board. Now sampling.',
+  status:'sampling',
+  photo:'<svg viewBox="0 0 400 260"><rect x="45" y="45" width="310" height="170" rx="10" fill="#0B6B47" stroke="#064E35" stroke-width="3"/><rect x="150" y="88" width="100" height="84" rx="5" fill="#151B18"/><text x="200" y="133" fill="#E8F3EC" font-size="13" font-weight="700" text-anchor="middle">RV1106</text><rect x="55" y="200" width="26" height="14" fill="#C9A227"/><rect x="90" y="200" width="26" height="14" fill="#C9A227"/><rect x="125" y="200" width="26" height="14" fill="#C9A227"/><rect x="265" y="200" width="26" height="14" fill="#C9A227"/><rect x="300" y="200" width="26" height="14" fill="#C9A227"/></svg>',
+  glance:[G('算力','NPU','1 TOPS','INT4/8/16'),G('片内内存','On-chip RAM','256 MB','2 Gb DDR3L'),G('ISP','ISP','8 MP@15fps','HDR/3A/3DNR'),G('摄像头接口','Camera I/F','2×MIPI / DVP','2-lane'),G('视频编码','Video Codec','H.265/H.264','multi-stream'),G('状态','Status','已出样 / Sampling','')],
+  specs:[[G('CPU','CPU','Cortex-A7 @ 1.2 GHz')],[G('封装','Package','QFN128, 12.3×12.3 mm')],[G('工作温度','Operating temp',tbd())],[G('PCB 尺寸 / 层数','PCB size / layers',tbd())],[G('供电输入','Power input',tbd())],[G('默认存储','Default storage',tbd())]],
+  links:['Schematic PDF (TBD)','PCB dimensions (TBD)','SDK source','Flashing tools & image'],
+  skus:[
+   {id:'MERCURY-1106-BTB-G3',chip:'RV1106G3',form:'BTB 核心板',formEn:'BTB core board',status:'sampling',price:'待定价 / TBD'},
+   {id:'MERCURY-1106-STAMP-G3',chip:'RV1106G3',form:'邮票孔核心板',formEn:'Stamp-hole core board',status:'sampling',price:'待定价 / TBD'},
+   {id:'MERCURY-1106-DEV-G3',chip:'RV1106G3',form:'开发板',formEn:'Dev board',status:'plan',price:'待定价 / TBD'},
+   {id:'MERCURY-1106-BTB-G2',chip:'RV1106G2',form:'BTB 核心板',formEn:'BTB core board',status:'plan',price:'待定价 / TBD'}
+  ],
+  versions:{hw:'V1.0',sdk:'V1.0.0',doc:'2026-11-23'}},
+ {key:'v1126',name:'VENUS-1126',planet:'金星 / Venus',catZh:'RV1126 系列 · 中端',catEn:'RV1126 Series · Mid-range',
+  descZh:'RV1126 系列中端主控，算力与接口较 RV1106 提升，规划中。',
+  descEn:'Mid-range RV1126 series SoC with higher compute and more I/O than RV1106. Planned.',status:'plan',
+  photo:'',glance:[G('定位','Position','中端 / Mid-range',''),G('芯片','Chip','RV1126','')],specs:[[G('状态','Status',t('status_planning'))]],links:[]},
+ {key:'rk3576',name:'MARS-3576',planet:'火星 / Mars',catZh:'RK3576 · 高端',catEn:'RK3576 · High-end',
+  descZh:'RK3576 高端主控，面向多路视觉与更强 NPU 推理，规划中。',
+  descEn:'High-end RK3576 SoC for multi-camera vision and stronger NPU inference. Planned.',status:'plan',
+  photo:'',glance:[G('定位','Position','高端 / High-end',''),G('芯片','Chip','RK3576','')],specs:[[G('状态','Status',t('status_planning'))]],links:[]},
+ {key:'rk3588',name:'JUPITER-3588',planet:'木星 / Jupiter',catZh:'RK3588 · 旗舰',catEn:'RK3588 · Flagship',
+  descZh:'RK3588 旗舰主控，8K 视频与高算力 NPU，规划中。',
+  descEn:'Flagship RK3588 SoC with 8K video and high-performance NPU. Planned.',status:'plan',
+  photo:'',glance:[G('定位','Position','旗舰 / Flagship',''),G('芯片','Chip','RK3588','')],specs:[[G('状态','Status',t('status_planning'))]],links:[]}
+];
+const CAM=[
+ {key:'sc233hgs',name:'LUNA-SC233HGS',planet:'月球 / Luna',catZh:'SC233 系列 · 当前搭配',catEn:'SC233 Series · Current',
+  descZh:'2.3 MP 全局快门，1200p@120fps，MIPI / DVP 输出。RV1106 当前确认搭配型号。',
+  descEn:'2.3 MP global shutter, 1200p@120fps, MIPI / DVP output. Current confirmed pairing for RV1106.',status:'current',
+  photo:'<svg viewBox="0 0 400 260"><rect x="128" y="45" width="145" height="150" rx="12" fill="#202622" stroke="#0D120F" stroke-width="3"/><rect x="140" y="55" width="121" height="128" rx="8" fill="#2C332E"/><circle cx="200" cy="119" r="52" fill="#0B0E0C" stroke="#49524B" stroke-width="5"/><circle cx="200" cy="119" r="36" fill="#13283F"/><circle cx="200" cy="119" r="22" fill="#091520"/><rect x="273" y="106" width="95" height="22" rx="3" fill="#C9A227"/></svg>',
+  glance:[G('分辨率','Resolution','2.3 MP','1928×1208'),G('快门','Shutter','全局 / Global',''),G('帧率','Frame rate','1200p@120fps',''),G('接口','Interface','MIPI / DVP','10-bit RAW'),G('像素','Pixel size','3.0 µm',''),G('状态','Status','当前 / Current','')],
+  specs:[[G('光学格式','Optical format','1/2.6"')],[G('动态范围','Dynamic range','HDR up to 100 dB')],[G('工作温度','Operating temp','-30 ~ +85 ℃')],[G('镜头焦距 / FOV','Lens / FOV',tbd())],[G('对焦方式','Focus method',tbd())],[G('模组尺寸','Module size',tbd())]],links:['SC233HGS Flyer','Module datasheet (TBD)','Lens spec (TBD)']},
+ {key:'imx586ff',name:'IO-IMX586-FF',planet:'木卫一 / Io',catZh:'IMX586 · 定焦',catEn:'IMX586 · Fixed Focus',
+  descZh:'索尼 IMX586 定焦模组，4800 万像素高分辨率，适合细节捕捉，规划中。',
+  descEn:'Sony IMX586 fixed-focus module, 48 MP high resolution for fine detail capture. Planned.',status:'plan',
+  photo:'<svg viewBox="0 0 400 260"><rect x="120" y="42" width="160" height="160" rx="12" fill="#202622" stroke="#0D120F" stroke-width="3"/><circle cx="200" cy="118" r="56" fill="#0B0E0C" stroke="#4A554C" stroke-width="5"/><circle cx="200" cy="118" r="40" fill="#152C45"/><circle cx="200" cy="118" r="24" fill="#0A1622"/><rect x="280" y="108" width="95" height="22" fill="#C9A227"/></svg>',
+  glance:[G('传感器','Sensor','IMX586',''),G('分辨率','Resolution','48 MP',''),G('类型','Type','定焦 / Fixed',''),G('状态','Status','规划 / Planned','')],
+  specs:[[G('传感器','Sensor','Sony IMX586')],[G('状态','Status',t('status_planning'))]],links:[]},
+ {key:'imx586zoom',name:'IO-IMX586-T',planet:'木卫一 / Io',catZh:'IMX586 · 长焦',catEn:'IMX586 · Telephoto',
+  descZh:'IMX586 长焦模组，支持远距离拍摄，规划中。',
+  descEn:'IMX586 telephoto module for long-distance shooting. Planned.',status:'plan',
+  photo:'<svg viewBox="0 0 400 260"><rect x="110" y="70" width="180" height="110" rx="14" fill="#202622" stroke="#0D120F" stroke-width="3"/><rect x="150" y="82" width="90" height="86" rx="8" fill="#2C332E"/><circle cx="195" cy="125" r="38" fill="#0B0E0C" stroke="#4A554C" stroke-width="4"/><circle cx="195" cy="125" r="24" fill="#152C45"/><circle cx="195" cy="125" r="12" fill="#0A1622"/><rect x="290" y="113" width="85" height="22" fill="#C9A227"/><text x="285" y="98" fill="#8A958D" font-size="11">ZOOM</text></svg>',
+  glance:[G('传感器','Sensor','IMX586',''),G('长焦','Telephoto','长焦 / Telephoto',''),G('状态','Status','规划 / Planned','')],
+  specs:[[G('传感器','Sensor','Sony IMX586')],[G('状态','Status',t('status_planning'))]],links:[]},
+ {key:'imx678',name:'SIRIUS-IMX678',planet:'天狼星 / Sirius',catZh:'IMX678 · 高分辨率 sensor',catEn:'IMX678 · High-res Sensor',
+  descZh:'索尼 IMX678 星光级夜视模组，低照度表现优异，规划中。',
+  descEn:'Sony IMX678 starlight night-vision module with excellent low-light performance. Planned.',status:'plan',
+  photo:'<svg viewBox="0 0 400 260"><rect x="125" y="45" width="150" height="150" rx="12" fill="#202622" stroke="#0D120F" stroke-width="3"/><circle cx="200" cy="118" r="54" fill="#060A12" stroke="#3F5A7A" stroke-width="5"/><circle cx="200" cy="118" r="38" fill="#0F2740"/><circle cx="200" cy="118" r="22" fill="#1B4D6B"/><circle cx="200" cy="118" r="10" fill="#6FD3E8"/><rect x="275" y="107" width="95" height="22" fill="#C9A227"/></svg>',
+  glance:[G('传感器','Sensor','IMX678',''),G('特性','Feature','星光级夜视 / Starlight',''),G('状态','Status','规划 / Planned','')],
+  specs:[[G('传感器','Sensor','Sony IMX678')],[G('状态','Status',t('status_planning'))]],links:[]},
+ {key:'imx989',name:'GANYMEDE-IMX989',planet:'木卫三 / Ganymede',catZh:'IMX989 · 高分辨率 sensor',catEn:'IMX989 · High-res Sensor',
+  descZh:'索尼 IMX989 一英寸大底模组，旗舰级画质，规划中。',
+  descEn:'Sony IMX989 1-inch large-format module for flagship image quality. Planned.',status:'plan',
+  photo:'<svg viewBox="0 0 400 260"><rect x="115" y="38" width="170" height="170" rx="14" fill="#202622" stroke="#0D120F" stroke-width="3"/><circle cx="200" cy="120" r="62" fill="#080C10" stroke="#5A6258" stroke-width="6"/><circle cx="200" cy="120" r="46" fill="#13283F"/><circle cx="200" cy="120" r="30" fill="#091520"/><circle cx="200" cy="120" r="14" fill="#2C5F7A"/><rect x="285" y="109" width="90" height="22" fill="#C9A227"/></svg>',
+  glance:[G('传感器','Sensor','IMX989',''),G('画幅','Format','1 英寸 / 1-inch',''),G('定位','Position','旗舰 / Flagship',''),G('状态','Status','规划 / Planned','')],
+  specs:[[G('传感器','Sensor','Sony IMX989')],[G('状态','Status',t('status_planning'))]],links:[]}
+];
+function tbd(){return lang==='zh'?'待确认':'TBD';}
+function statusText(s){return s==='plan'?t('status_planning'):s==='sampling'?t('status_sampling'):s==='current'?t('tag_current'):t('status_available');}
+function catOf(p){return lang==='zh'?p.catZh:p.catEn;}
+function descOf(p){return lang==='zh'?p.descZh:p.descEn;}
+
+/* ============ 兼容矩阵 ============ */
+function compat(s,c){
+  const table={
+   'm1106|sc233hgs':['ok',lang==='zh'?'RV1106 当前确认搭配：MIPI CSI 2-lane 直连，10-bit RAW，驱动已适配，推荐直接选用。':'Current confirmed pairing for RV1106: MIPI CSI 2-lane direct, 10-bit RAW, driver adapted. Recommended.'],
+   'm1106|imx586ff':['warn',lang==='zh'?'高分辨率 sensor 对 RV1106 的 ISP 输入与内存带宽压力较大，建议降分辨率验证后再量产。':'High-res sensor stresses RV1106 ISP input and memory bandwidth. Validate at reduced resolution before mass production.'],
+   'm1106|imx586zoom':['warn',lang==='zh'?'除带宽外还需确认长焦镜头驱动与 I2C 控制，建议先做驱动验证。':'Besides bandwidth, verify telephoto lens driver and I2C control. Start with driver validation.'],
+   'm1106|imx678':['warn',lang==='zh'?'低照度模组电气上可接，需确认 SDK 是否含对应驱动与 ISP 调优。':'Electrically connectable; confirm SDK driver support and ISP tuning.'],
+   'm1106|imx989':['no',lang==='zh'?'1 英寸大底超出 RV1106 的 ISP 输入上限与带宽能力，不建议搭配。':'1-inch large format exceeds RV1106 ISP input limit and bandwidth. Not recommended.'],
+   'v1126|sc233hgs':['ok',lang==='zh'?'RV1126 支持 MIPI 输入，SC233HGS 可直接搭配，需确认设备树配置。':'RV1126 supports MIPI input; SC233HGS pairs directly, confirm device tree.'],
+   'v1126|imx989':['warn',lang==='zh'?'高端 sensor 建议搭配更高档主控以发挥画质，请评估带宽。':'Pair high-end sensor with a higher-tier SoC for full image quality; assess bandwidth.']
+  };
+  if(table[s+'|'+c])return table[s+'|'+c];
+  if(c==='imx989'&&(s==='rk3576'||s==='rk3588'))return ['ok',lang==='zh'?'高档主控可充分发挥 IMX989 一英寸大底画质，推荐搭配。':'Higher-tier SoC can fully drive the IMX989 1-inch sensor. Recommended.'];
+  if(s==='rk3588')return ['ok',lang==='zh'?'RK3588 旗舰平台，接口与带宽充足，各档 sensor 均可搭配（待实测验证）。':'RK3588 flagship with ample I/O and bandwidth; all sensors can be paired (to be verified).'];
+  if(s==='rk3576')return ['ok',lang==='zh'?'RK3576 高端平台，支持多路 MIPI 输入，各档 sensor 可搭配（待实测验证）。':'RK3576 high-end platform with multi-MIPI input; sensors can be paired (to be verified).'];
+  return ['warn',lang==='zh'?'组合技术可行，但需确认驱动、设备树、供电与带宽后量产。':'Technically feasible; verify driver, device tree, power and bandwidth before production.'];
+}
+
+/* ============ 视图 / 交互 ============ */
+function showView(id){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('view-'+id).classList.add('active');
+  document.querySelectorAll('.nav-link').forEach(a=>a.classList.remove('active'));
+  if(id==='home')document.getElementById('productBtn').classList.add('active');
+  else{const n=document.querySelector('.nav-link[data-view="'+id+'"]');if(n)n.classList.add('active');}
+  document.getElementById('dropdown').classList.remove('show');
+  window.scrollTo({top:0,behavior:'instant'});
+}
+function toggleDropdown(e){e.stopPropagation();document.getElementById('dropdown').classList.toggle('show');}
+document.addEventListener('click',e=>{if(!e.target.closest('.nav-dropdown'))document.getElementById('dropdown').classList.remove('show');});
+
+let curSoc='m1106',curCam='sc233hgs',curProduct=null;
+function showProduct(key){
+  if(!isLive(key)){showView('home');return;}
+  curProduct=key;
+  const p=[...SOC,...CAM].find(x=>x.key===key);if(!p)return;
+  const glance=p.glance.map(g=>`<div class="glance-item"><div class="lab">${lang==='zh'?g.zh:g.en}</div><div class="val">${g.v}</div>${g.sub?`<div class="sub">${g.sub}</div>`:''}</div>`).join('');
+  const specs=p.specs.map(s=>{let v=s[0].v;if(v==='待确认'||v==='TBD')v=t('tbd');if(v==='规划中'||v==='Planned')v=t('status_planning');return `<tr><th>${lang==='zh'?s[0].zh:s[0].en}</th><td>${v}</td></tr>`;}).join('');
+  const links=p.links.length?p.links.map(l=>`<a>${l}${l.includes('TBD')||l.includes('待补充')?'':' ↗'}</a>`).join(''):`<a>${t('tbd')}</a>`;
+  const statusCls={plan:'st-plan',sampling:'st-sampling',mass:'st-mass',eol:'st-eol'}[p.status]||'st-plan';
+  const statusTxt={plan:t('st_plan'),sampling:t('st_sample'),mass:t('st_mass'),eol:t('st_eol')}[p.status]||t('st_plan');
+  const life=['plan','sampling','mass','eol'].map(s=>`<span class="${s===p.status?'cur':''}">${{plan:t('st_plan'),sampling:t('st_sample'),mass:t('st_mass'),eol:t('st_eol')}[s]}</span>`).join('');
+  const skuHtml=p.skus?`<div class="panel"><h3>${t('h_sku')}</h3><p style="color:var(--muted);font-size:12px;margin:6px 0">${t('p_sku')}</p>
+    <table class="sku-table"><thead><tr><th>${t('th_sku')}</th><th>${t('th_chip')}</th><th>${t('th_form')}</th><th>${t('th_status')}</th><th>${t('th_price')}</th></tr></thead><tbody>
+    ${p.skus.map(s=>{const sc={plan:'st-plan',sampling:'st-sampling',mass:'st-mass',eol:'st-eol'}[s.status]||'st-plan';return `<tr><td class="mid">${s.id}</td><td>${s.chip}</td><td>${lang==='zh'?s.form:s.formEn}</td><td><span class="st-badge ${sc}">${{plan:t('st_plan'),sampling:t('st_sample'),mass:t('st_mass'),eol:t('st_eol')}[s.status]}</span></td><td>${s.price}</td></tr>`;}).join('')}
+    </tbody></table></div>`:'';
+  const verHtml=p.versions?`<div class="panel"><h3>${t('h_versions')}</h3><p style="color:var(--muted);font-size:12px;margin:6px 0">${t('p_versions')}</p>
+    <div class="ver-grid">
+      <div class="ver-card"><div class="k">${t('v_hw')}</div><div class="v">${p.versions.hw}</div></div>
+      <div class="ver-card"><div class="k">${t('v_sdk')}</div><div class="v">${p.versions.sdk}</div></div>
+      <div class="ver-card"><div class="k">${t('v_doc')}</div><div class="v" style="font-size:15px">${p.versions.doc}</div></div>
+    </div>
+    <div class="lifecycle-bar">${life}</div>
+    <p style="color:var(--muted);font-size:11px;margin-top:8px">${t('lifecycle')}</p></div>`:'';
+  document.getElementById('pd-main').innerHTML=`
+    <div class="crumb"><a onclick="showView('home')">${t('crumb_home')}</a> / ${t('nav_product')} / ${p.name}</div>
+    <div class="pd-head">
+      <div class="pd-photo">${p.photo||`<span style="color:#93A099;font-size:12px">${t('status_planning')}</span>`}</div>
+      <div class="pd-info"><div class="cat">${catOf(p)} · ${p.planet} <span class="st-badge ${statusCls}" style="margin-left:8px">${statusTxt}</span></div><h1>${p.name}</h1>
+        <div class="lead">${descOf(p)}</div>
+        <div class="pd-price"><span class="num">${t('price_tbd')}</span><span class="note">${t('price_note')}</span></div>
+        <button class="btn btn-green" onclick="showView('buy')">${t('buy_now')}</button>
+      </div>
+    </div>
+    <div class="glance"><h3>${t('h_glance')}</h3><div class="glance-grid">${glance}</div></div>
+    ${skuHtml}
+    <div class="panel"><h3>${t('h_specs')}</h3><table style="margin-top:10px">${specs}</table></div>
+    <div class="panel"><h3>${t('h_dim')}</h3><div class="embed-demo">${t('dim_tip')}</div></div>
+    <div class="panel"><h3>${t('h_res')}</h3><div class="res-mini-grid">
+      <div class="res-mini"><h5>🔧 ${t('res_hw_title')}</h5>${links}</div>
+      <div class="res-mini"><h5>💻 ${t('res_sw_title')}</h5><a>System image ↗</a><a>Flashing guide ↗</a><a>User manual ↗</a></div>
+      <div class="res-mini"><h5>📦 ${t('res_sdk_title')}</h5><a>SDK source ↗</a><a>RKNN tools ↗</a><a>Demo ↗</a></div>
+    </div></div>
+    ${verHtml}`;
+  document.querySelectorAll('#detailSidebar .side-item').forEach(i=>i.classList.toggle('on',i.dataset.p===key));
+  showView('product');
+}
+
+/* ============ 渲染 ============ */
+function renderSidebars(){
+  const socItems=visibleSoc().map(p=>`<div class="side-item ${curProduct===p.key?'on':''}" data-p="${p.key}" onclick="showProduct('${p.key}')"><span class="dot"></span>${p.name}</div>`).join('');
+  const camItems=visibleCam().map(p=>`<div class="side-item ${curProduct===p.key?'on':''}" data-p="${p.key}" onclick="showProduct('${p.key}')"><span class="dot"></span>${p.name}</div>`).join('');
+  document.getElementById('quickSidebar').innerHTML=`<div class="side-title">${t('side_quick')}</div>
+    <div class="side-group"><div class="side-group-label">🪐 ${t('side_soc')}</div>${socItems}</div>
+    <div class="side-group"><div class="side-group-label">🌙 ${t('side_cam')}</div>${camItems}</div>
+    <div class="side-group"><div class="side-group-label">🧩 ${t('side_kit')}</div><div class="side-item" onclick="document.getElementById('configurator').scrollIntoView()"><span class="dot"></span>${lang==='zh'?'互选搭配':'Mix & Match'}</div></div>`;
+  document.getElementById('detailSidebar').innerHTML=`<div class="side-title">${t('side_quick')}</div>
+    <div class="side-group"><div class="side-group-label">🪐 ${t('side_soc')}</div>${socItems}</div>
+    <div class="side-group"><div class="side-group-label">🌙 ${t('side_cam')}</div>${camItems}</div>
+    <div class="side-group"><div class="side-group-label">🧩 ${t('side_kit')}</div><div class="side-item" onclick="document.getElementById('configurator').scrollIntoView();showView('home')"><span class="dot"></span>${lang==='zh'?'互选搭配':'Mix & Match'}</div></div>`;
+  document.getElementById('docsSidebar').innerHTML=`<div class="side-title">${t('foot_resource')}</div>
+    <div class="side-group"><div class="side-group-label">🔧 ${t('res_hw_title')}</div><div class="side-item on"><span class="dot"></span>${t('r1')}</div><div class="side-item"><span class="dot"></span>${t('r2')}</div></div>
+    <div class="side-group"><div class="side-group-label">💻 ${t('res_sw_title')}</div><div class="side-item"><span class="dot"></span>${t('r5')}</div><div class="side-item"><span class="dot"></span>${t('r6')}</div></div>
+    <div class="side-group"><div class="side-group-label">📦 ${t('res_sdk_title')}</div><div class="side-item"><span class="dot"></span>${t('r9')}</div><div class="side-item"><span class="dot"></span>${t('r10')}</div></div>`;
+  document.getElementById('buySidebar').innerHTML=`<div class="side-title">${t('nav_buy')}</div>
+    <div class="side-item on"><span class="dot"></span>${t('p_all')}</div>
+    <div class="side-item"><span class="dot"></span>${t('buy_kits')}</div>
+    <div class="side-item"><span class="dot"></span>${t('buy_shipping')}</div>
+    <div class="side-item"><span class="dot"></span>${t('buy_after')}</div>`;
+  document.getElementById('faqSidebar').innerHTML=`<div class="side-title">FAQ</div>
+    <div class="side-item on"><span class="dot"></span>${t('faq_all')}</div>
+    <div class="side-item"><span class="dot"></span>${t('faq_buy')}</div>
+    <div class="side-item"><span class="dot"></span>${t('faq_flash')}</div>
+    <div class="side-item"><span class="dot"></span>${t('faq_hw')}</div>
+    <div class="side-item"><span class="dot"></span>${t('faq_after')}</div>`;
+}
+function cardHtml(p){
+  const g=p.glance.slice(0,4).map(x=>`<div><span>${lang==='zh'?x.zh:x.en}</span><b>${x.v}</b></div>`).join('');
+  return `<div class="product-card" onclick="showProduct('${p.key}')">
+    <div class="product-photo"><span class="photo-tag">${lang==='zh'?'实物示意图':'Product (illustration)'}</span>${p.photo||`<span style="color:#93A099;font-size:12px">${t('status_planning')}</span>`}</div>
+    <div class="product-body"><div class="cat">${catOf(p)} <span class="badge ${p.status==='plan'?'plan':''}">${statusText(p.status)}</span></div>
+      <h3>${p.name}</h3>
+      <div class="spec-mini">${g}</div><div class="card-link">${t('viewspec')} <span class="arrow">→</span></div></div></div>`;
+}
+function renderCards(){
+  document.getElementById('socCards').innerHTML=visibleSoc().map(cardHtml).join('');
+  document.getElementById('camCards').innerHTML=visibleCam().map(cardHtml).join('');
+}
+function renderDropdown(){
+  const soc=visibleSoc().map(p=>`<div class="dd-item" onclick="showProduct('${p.key}')"><span>${p.name}</span><small class="${p.status==='plan'?'plan':''}">${statusText(p.status)}</small></div>`).join('');
+  const cam=visibleCam().map(p=>`<div class="dd-item" onclick="showProduct('${p.key}')"><span>${p.name}</span><small class="${p.status==='plan'?'plan':''}">${statusText(p.status)}</small></div>`).join('');
+  document.getElementById('dropdown').innerHTML=`
+    <div class="dd-group"><div class="dd-label">${t('dd_soc')}</div>${soc}</div>
+    <div class="dd-group"><div class="dd-label">${t('dd_cam')}</div>${cam}</div>
+    <div class="dd-group"><div class="dd-label">${t('dd_kit')}</div>
+      <div class="dd-item" onclick="showView('home');setTimeout(()=>document.getElementById('configurator').scrollIntoView(),80)"><span>${lang==='zh'?'主控 + 模组互选':'SoC + Camera Matcher'}</span><small>NEW</small></div></div>`;
+}
+function renderConfigurator(){
+  const socs=visibleSoc(),cams=visibleCam();
+  if(!socs.length||!cams.length){
+    document.getElementById('cfgSocList').innerHTML='';
+    document.getElementById('cfgCamList').innerHTML='';
+    document.getElementById('cfgResult').innerHTML=`<div class="r-title">${t('cfg_result')}</div><div class="cfg-note">${lang==='zh'?'暂无可选产品，请在代码 PUBLISH 里把产品设为 true 后重新上传。':'No products available. Set a product to true in the code PUBLISH map and re-upload.'}</div>`;
+    return;
+  }
+  if(!socs.find(x=>x.key===curSoc))curSoc=socs[0].key;
+  if(!cams.find(x=>x.key===curCam))curCam=cams[0].key;
+  document.getElementById('cfgSocList').innerHTML=socs.map(p=>`<div class="cfg-opt ${curSoc===p.key?'on':''}" onclick="pickSoc('${p.key}')"><b>${p.name}</b><small>${catOf(p)}</small></div>`).join('');
+  document.getElementById('cfgCamList').innerHTML=cams.map(p=>`<div class="cfg-opt ${curCam===p.key?'on':''}" onclick="pickCam('${p.key}')"><b>${p.name}</b><small>${catOf(p)}</small></div>`).join('');
+  const s=socs.find(x=>x.key===curSoc),c=cams.find(x=>x.key===curCam);
+  const [level,note]=compat(curSoc,curCam);
+  const lv={ok:t('cfg_ok'),warn:t('cfg_warn'),no:t('cfg_no')}[level];
+  document.getElementById('cfgResult').innerHTML=`<div class="r-title">${t('cfg_result')}</div>
+    <div class="r-name">${s.name} + ${c.name}</div>
+    <div class="r-row"><span class="level ${level}">${lv}</span><b style="font-size:12px">${t('cfg_compat')}</b></div>
+    <div class="cfg-note"><b>${t('cfg_note_label')}：</b>${note}</div>`;
+}
+function pickSoc(k){curSoc=k;renderConfigurator();}
+function pickCam(k){curCam=k;renderConfigurator();}
+function renderDocs(){
+  const mk=(title,rows)=>`<h3>${title}</h3><table style="margin:10px 0 22px"><tr><th>${t('th_item')}</th><th>${t('th_desc')}</th><th>${t('th_link')}</th></tr>${rows.map(r=>`<tr><td>${lang==='zh'?r[0]:r[1]}</td><td>${lang==='zh'?r[2]:r[3]}</td><td><a style="color:var(--green-3)">↗</a></td></tr>`).join('')}</table>`;
+  document.getElementById('docsTables').innerHTML=
+   mk(t('res_hw_title'),[['原理图 PDF','Schematic PDF','Rev1.0','Rev1.0'],['PCB 尺寸图','PCB dimensions','含安装孔位','With mounting holes'],['摄像头规格书','Camera datasheet','SC233HGS / IMX 系列','SC233HGS / IMX series']])+
+   mk(t('res_sw_title'),[['系统镜像','System image','Buildroot / Ubuntu','Buildroot / Ubuntu'],['烧录工具','Flashing tools','Windows / Linux','Windows / Linux'],['用户手册','User manual','快速上手','Quick start']])+
+   mk(t('res_sdk_title'),[['SDK 源码','SDK source','GitHub + Gitee','GitHub + Gitee'],['模型工具','Model tools','RKNN / RKLLM','RKNN / RKLLM'],['示例 Demo','Demo','检测 / 抓图','Detection / capture']]);
+}
+function renderBuy(){
+  const items=[[SOC[0],'<svg viewBox="0 0 200 140"><rect x="20" y="20" width="160" height="100" rx="6" fill="#0B6B47"/><rect x="75" y="42" width="50" height="55" rx="3" fill="#151B18"/><text x="100" y="74" fill="#E8F3EC" font-size="8" text-anchor="middle">RV1106</text></svg>'],
+               [CAM[0],'<svg viewBox="0 0 200 140"><rect x="62" y="18" width="76" height="100" rx="8" fill="#202622"/><circle cx="100" cy="64" r="30" fill="#0B0E0C" stroke="#49524B" stroke-width="3"/><circle cx="100" cy="64" r="17" fill="#13283F"/><rect x="138" y="56" width="45" height="14" fill="#C9A227"/></svg>'],
+               [SOC[0],'<svg viewBox="0 0 200 140"><rect x="15" y="85" width="95" height="40" rx="4" fill="#0B6B47"/><rect x="110" y="30" width="70" height="80" rx="6" fill="#202622"/><circle cx="145" cy="66" r="24" fill="#0B0E0C" stroke="#49524B" stroke-width="3"/></svg>']].filter(it=>isLive(it[0].key));
+  document.getElementById('buyCards').innerHTML=items.map((it,i)=>{const p=it[0];const nm=i===2?(lang==='zh'?'MERCURY + LUNA 组合套件':'MERCURY + LUNA Combo Kit'):p.name;
+   return `<div class="buy-card"><div class="buy-top"><div class="thumb">${it[1]}</div><div><h4>${nm}</h4><p>${descOf(p).slice(0,42)}...</p><p style="color:var(--gold);font-weight:800">${t('price_tbd')}</p></div></div>
+   <div class="buy-actions"><div class="buy-btn buy-taobao">${t('buy_taobao')}</div><div class="buy-btn buy-other">${t('buy_other')}</div></div></div>`;}).join('');
+}
+function renderFaq(){
+  const faq=[
+   [lang==='zh'?'在哪里购买？支持哪些支付方式？':'Where to buy? What payment methods?',lang==='zh'?'在「购买」页面点对应商品的按钮跳转到淘宝或独立站，具体支付方式以店铺页面为准。':'Click the product button on the Buy page to visit Taobao or our store; payment methods follow the store.'],
+   [lang==='zh'?'RV1106 当前搭配哪颗 sensor？':'Which sensor is currently paired with RV1106?',lang==='zh'?'RV1106 当前确认搭配 SC233HGS（2.3 MP 全局快门），MIPI 2-lane 直连。':'RV1106 is currently paired with SC233HGS (2.3 MP global shutter) via MIPI 2-lane.'],
+   [lang==='zh'?'高端模组 IMX989 能配 RV1106 吗？':'Can IMX989 pair with RV1106?',lang==='zh'?'不建议。1 英寸大底超出 RV1106 的 ISP 输入与带宽能力，建议搭配 RK3576 / RK3588。':'Not recommended. The 1-inch sensor exceeds RV1106 ISP/bandwidth; use RK3576 / RK3588 instead.'],
+   [lang==='zh'?'NPU 算力是 0.5 TOPS 还是 1 TOPS？':'Is NPU 0.5 or 1 TOPS?',lang==='zh'?'以 Rockchip RV1106 Datasheet Rev2.2 为准，最高 1 TOPS。':'Per Rockchip RV1106 Datasheet Rev2.2, up to 1 TOPS.'],
+   [lang==='zh'?'保修政策是怎样的？':'What is the warranty policy?',lang==='zh'?'待确认：建议 12 个月，覆盖元器件失效与焊接问题。':'TBD: 12 months suggested, covering component and soldering failures.']
+  ];
+  document.getElementById('faqList').innerHTML=faq.map(f=>`<div class="faq-item"><div class="faq-q" onclick="toggleFaq(this)">${f[0]}<span>+</span></div><div class="faq-a">${f[1]}</div></div>`).join('');
+}
+function toggleFaq(el){const it=el.parentElement;it.classList.toggle('open');el.querySelector('span').textContent=it.classList.contains('open')?'−':'+';}
+
+function renderAll(){renderSidebars();renderCards();renderDropdown();renderConfigurator();renderDocs();renderBuy();renderFaq();if(curProduct)showProduct(curProduct);}
+applyI18n();   /* 首屏按 URL 语言（默认英文 / 含 cn 为中文）翻译静态文案 */
+renderAll();
+</script>
+</body>
+</html>

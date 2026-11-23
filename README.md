@@ -47,6 +47,7 @@
 - [第 10 章 资料下载与大文件](#第-10-章-资料下载与大文件)
 - [第 11 章 发布前检查清单 + 故障排查](#第-11-章-发布前检查清单--故障排查)
 - [第 12 章 名词解释（小白术语表）](#第-12-章-名词解释小白术语表)
+- [第 13 章 产品状态、三层版本号与 SKU 管理](#第-13-章-产品状态三层版本号与-sku-管理)
 
 ---
 
@@ -101,34 +102,58 @@ GitHub Actions 被自动触发（云端的一台电脑）
 
 适合：一次改十几个文件、新增产品、用 VS Code 等编辑器。
 
-首次准备（只需做一次）：
+#### ⚠️ 在当前 WorkBuddy 环境里，必须用 PowerShell + npm.cmd（不要用 Git Bash）
 
-```bash
-# 1. 安装 Git（如果还没装）：https://git-scm.com/download/win，一路默认安装
-# 2. 安装 Node.js 20 或更高（本地预览才需要）：https://nodejs.org，选 LTS 版
-# 3. 打开 Git Bash 或 PowerShell，克隆仓库
-git clone https://github.com/FLOOR5858/maomaoxiang-docs.git
-cd maomaoxiang-docs
-npm install          # 安装依赖，只需一次
+这是本机特有的坑，记住一条：**在 WorkBuddy 自带的终端里，`npm` 命令是坏的，要用 `npm.cmd` + PowerShell。**
+
+- 症状：在 Bash / Git Bash 里敲 `npm install` 会报 `dirname: command not found`、`cd: null directory`、`/usr/bin/env: 'bash': No such file or directory` 之类的错，装到一半还会在 `node_modules` 里留下缺文件的烂摊子（比如 `cacheable-request/dist/types.js` 丢失，导致 `npm run build` 报 `ERR_MODULE_NOT_FOUND`）。
+- 原因：Bash 环境里 `npm` 解析到了一个坏掉的 shim 包装脚本。
+- 解决：**开 PowerShell**（不是 Bash），用下面这两条命令自动找到真正能用的 `npm.cmd`（自动适配 Node 版本升级，不用改路径）：
+
+```powershell
+# 在 PowerShell 里执行：自动找到可用的 npm.cmd
+$npmCmd = (Get-ChildItem "$env:USERPROFILE\.workbuddy\binaries\node\versions\*\npm.cmd" | Select-Object -First 1).FullName
+Set-Location "C:\Users\Administrator\WorkBuddy\2026-11-21-18-17-41\maomaoxiang-docs"
+& $npmCmd install     # 安装依赖（只需一次；第一次会较慢，国内走 npmmirror 镜像）
 ```
 
-> 你的电脑上已经有这个项目了，路径是 `C:\Users\Administrator\WorkBuddy\2026-11-21-18-17-41\maomaoxiang-docs`，所以从 `cd` 进入即可，不用重新 clone。
+> 万一 `node_modules` 之前被 Bash 装坏了（build 报 `ERR_MODULE_NOT_FOUND`），先删掉重装：在 PowerShell 里执行 `Remove-Item -Recurse -Force node_modules`，再跑上面的 `& $npmCmd install`。
 
-日常循环（每次都按这个顺序）：
+日常循环（每次都按这个顺序；同样是 **PowerShell**）：
 
-```bash
-cd C:\Users\Administrator\WorkBuddy\2026-11-21-18-17-41\maomaoxiang-docs
+```powershell
+$npmCmd = (Get-ChildItem "$env:USERPROFILE\.workbuddy\binaries\node\versions\*\npm.cmd" | Select-Object -First 1).FullName
+Set-Location "C:\Users\Administrator\WorkBuddy\2026-11-21-18-17-41\maomaoxiang-docs"
 
 git pull                    # ① 开工：先拉取网页上的最新改动，避免冲突
 
 # ② 用编辑器修改 docs/ 下的文件（或新增文件、放图片）
 
-npm start                   # ③ 可选：本地预览，浏览器打开 http://localhost:3000 看效果
+& $npmCmd start             # ③ 本地预览：浏览器打开 http://localhost:3000 看效果
                             #    按 Ctrl+C 停止预览
 
 git add .                   # ④ 把所有改动加入暂存区（也可以 git add 具体文件名）
 git commit -m "docs: 更新了什么"   # ⑤ 提交，引号里写清楚改了什么
 git push                    # ⑥ 推送到 GitHub → 自动上线（1–3 分钟）
+```
+
+#### 如果是你自己的电脑（普通环境，没装 WorkBuddy）
+
+那就用标准写法，开 Git Bash 或 PowerShell 都行：
+
+```bash
+# 首次准备：装 Git（https://git-scm.com/download/win）+ Node.js 20 或更高（https://nodejs.org，LTS 版）
+git clone https://github.com/FLOOR5858/maomaoxiang-docs.git
+cd maomaoxiang-docs
+npm install          # 安装依赖，只需一次
+
+# 日常循环
+git pull                    # ① 开工：拉取最新改动
+# ② 改文件...
+npm start                   # ③ 本地预览 http://localhost:3000，Ctrl+C 停止
+git add .                   # ④ 暂存
+git commit -m "docs: 更新了什么"   # ⑤ 提交
+git push                    # ⑥ 推送上线
 ```
 
 常用 Git 命令速查：
@@ -228,7 +253,7 @@ sidebar_position: 1
 |---|---|---|
 | `id` | 这篇文档的唯一编号 | **只能写纯文件名，不能带斜杠**。写成 `product/solar-mercury-soc` 会构建失败 |
 | `title` | 浏览器标签页标题 | 改这里 |
-| `slug` | 自定义网址 | 只有首页 `intro.md` 写了 `slug: /`，其他页一般不用 |
+| `slug` | 自定义网址 | 现在首页已改成产品门面（`src/pages/index.jsx`），`intro.md` 用 `slug: /overview` 放在 `/overview`，其他页一般不用 |
 | `sidebar_position` | 排序权重 | 当前侧边栏是手写的，顺序主要由 `sidebars.js` 决定 |
 
 > ⚠️ 这段 `---` 不能删，也不能乱改 `id`，否则页面可能打不开。
@@ -705,7 +730,11 @@ GitHub 硬限制：单文件建议 < 50 MB（硬上限 100 MB），仓库建议 
 - [ ] `static/CNAME` 还在
 - [ ] `git status` 看一眼，确认没有漏加的文件
 
-本地能跑的话，先 `npm run build`，**零报错**再 push。
+本地能跑的话，先构建一次确认**零报错**再 push（WorkBuddy 环境用 PowerShell + 上面自动检测到的 `$npmCmd`）：
+
+```powershell
+& $npmCmd run build
+```
 
 ### 11.2 常见问题排查
 
@@ -719,6 +748,7 @@ GitHub 硬限制：单文件建议 < 50 MB（硬上限 100 MB），仓库建议 
 | 网址 HTTPS 提示不安全 | 多为本地缓存/HISTS 问题 | 强刷 Ctrl+F5、清浏览器 HSTS、换浏览器/网络验证；服务端证书本身有效 |
 | 自定义域名打不开 | CNAME 或 Pages 绑定丢了 | 确认 `static/CNAME` 内容正确，且仓库 Settings → Pages → Custom domain 填了 `docs.maomaoxiang.com` |
 | 本地 `git push` 冲突 | 没先 pull | `git pull` 后再 push |
+| 本地 `npm install` 报 `dirname: command not found` / build 报 `ERR_MODULE_NOT_FOUND` | WorkBuddy 环境的 Bash npm shim 是坏的 / node_modules 被装坏了 | 开 PowerShell，用第 1 章的 `npm.cmd` 写法；先 `Remove-Item -Recurse -Force node_modules` 再重装 |
 
 > 查看构建状态：仓库页面顶部 **Actions** → 点最新的 "Deploy to GitHub Pages" → 看 jobs 是否有绿色对勾。部署成功的网址形如 `https://docs.maomaoxiang.com`。
 
@@ -738,6 +768,78 @@ GitHub 硬限制：单文件建议 < 50 MB（硬上限 100 MB），仓库建议 
 | CNAME | DNS 记录的一种，把 `docs.maomaoxiang.com` 指向 GitHub Pages |
 | static 目录 | 放"原样使用"的文件（图片等），它们会原封不动出现在网站根目录 |
 | slug | 网址的最后一段。比如 `/faq` 的 slug 是 `faq`；文件名就是默认 slug |
+
+---
+
+## 第 13 章 产品状态、三层版本号与 SKU 管理
+
+> 这一章解释改版原型里那套"产品状态机 / 三层版本号 / SKU 表格"到底是什么、以后怎么维护。这些概念在原型 HTML 里用 JS 数据驱动，落地到真实 Docusaurus 站点时会换成文档 frontmatter + 页面组件，但**思路完全一样**。
+
+### 13.1 产品状态机：规划 → 样品 → 量产 → 停产
+
+每个产品都有生命周期，用 4 个状态表示：
+
+| 状态 | 英文 key | 含义 | 网页上的表现 |
+|---|---|---|---|
+| 规划中 | `plan` | 还在纸上，没打样 | 灰色徽章；规格显示"待确认" |
+| 样品 | `sampling` | 样机出来了，可给客户测试 | 橙色徽章 |
+| 量产 | `mass` | 正式出货 | 绿色徽章 |
+| 停产 | `eol` | 停止供货（End of Life） | 灰色徽章 |
+
+在原型 HTML 里，状态写在产品数据的 `status` 字段：
+
+```js
+{ key:'m1106', name:'MERCURY-1106', status:'sampling', ... }
+```
+
+要改状态，就改这个值：`plan` / `sampling` / `mass` / `eol`。页面的状态徽章和生命周期条（规划 → 样品 → 量产 → 停产）会自动跟着变。
+
+> 注意：**产品状态**和**发布开关**是两回事。状态是"这个产品做到哪一步了"（给访客看），发布开关 `PUBLISH.xxx` 是"这个产品要不要在网站显示"（给你自己控制）。一个尚未发布的产品，通常状态是 `plan` 且 `PUBLISH=false`。
+
+### 13.2 三层版本号：硬件 / SDK / 文档各管各的
+
+每个产品有 3 个独立版本号，各走各的迭代线：
+
+| 层 | 字段 | 例子 | 什么时候改 |
+|---|---|---|---|
+| 硬件版本 | `hw` | `V1.0` | PCB 改版、换料、改封装时递增（V1.0 → V1.1） |
+| SDK 版本 | `sdk` | `V1.0.0` | 固件/驱动/算法更新时递增（V1.0.0 → V1.1.0） |
+| 文档日期 | `doc` | `2026-11-23` | 每次改这个产品的文档就更新成当天日期 |
+
+原型 HTML 里长这样：
+
+```js
+versions:{ hw:'V1.0', sdk:'V1.0.0', doc:'2026-11-23' }
+```
+
+**为什么分三层？** 因为硬件、软件、文档是三条独立的迭代线。硬件 V1.0 可以配 SDK V1.2.3，而文档日期是今天——分开记才不会乱。访客一眼就能判断"我手上这块板子，该配哪个版本 SDK、看哪天更新的文档"。
+
+### 13.3 SKU 表格：一个产品页管所有型号
+
+**SKU**（Stock Keeping Unit）= 一个产品下面具体可买的型号。比如 MERCURY-1106 下有 BTB 核心板、邮票孔核心板、开发板，芯片又有 G3/G2 之分——这些都是 SKU。
+
+**核心原则：不为每个 SKU 建子目录，全部放在一个产品页的表格里。** 这样访客在一个页面就能横向对比所有型号，你也不用维护一堆重复的子页面。
+
+命名格式（产品代号 + 形态 + 芯片）：
+
+```text
+MERCURY-1106-BTB-G3       BTB 核心板 + RV1106G3
+MERCURY-1106-STAMP-G3     邮票孔核心板 + RV1106G3
+MERCURY-1106-DEV-G3       开发板 + RV1106G3
+MERCURY-1106-BTB-G2       BTB 核心板 + RV1106G2
+```
+
+原型 HTML 里，SKU 写在产品的 `skus` 数组：
+
+```js
+skus:[
+  {id:'MERCURY-1106-BTB-G3', chip:'RV1106G3', form:'BTB 核心板', formEn:'BTB core board', status:'sampling', price:'待定价 / TBD'},
+  {id:'MERCURY-1106-STAMP-G3', chip:'RV1106G3', form:'邮票孔核心板', formEn:'Stamp-hole core board', status:'sampling', price:'待定价 / TBD'},
+  ...
+]
+```
+
+新增 SKU 就往数组里加一行；停产就改那一行的 `status` 或删掉。每个 SKU 有自己的状态徽章，和父产品的状态互不影响。
 
 ---
 

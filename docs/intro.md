@@ -1,7 +1,7 @@
 ---
 id: intro
 title: 产品总览
-slug: /
+slug: /overview
 sidebar_position: 1
 ---
 

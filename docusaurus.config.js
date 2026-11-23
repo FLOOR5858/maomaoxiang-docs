@@ -11,7 +11,11 @@ const config = {
   organizationName: 'FLOOR5858',
   projectName: 'maomaoxiang-docs',
   onBrokenLinks: 'warn',
-  onBrokenMarkdownLinks: 'warn',
+  markdown: {
+    hooks: {
+      onBrokenMarkdownLinks: 'warn',
+    },
+  },
 
   i18n: {
     defaultLocale: 'zh-CN',
@@ -49,20 +53,19 @@ const config = {
           srcDark: 'img/logo-dark.svg',
         },
         items: [
-          { type: 'doc', docId: 'intro', position: 'left', label: '产品总览' },
+          { to: '/', label: '产品', position: 'left' },
+          { to: '/downloads', label: '资料', position: 'left' },
+          { to: '/buy', label: '购买', position: 'left' },
           {
             type: 'dropdown',
-            label: '产品',
+            label: 'FAQ',
             position: 'left',
             items: [
-              { type: 'doc', docId: 'product/solar-mercury-soc', label: 'MERCURY-1106G3 主控' },
-              { type: 'doc', docId: 'product/luna-camera', label: 'LUNA-SC233 摄像头' },
-              { type: 'doc', docId: 'product/combo-kit', label: '组合套件' },
+              { to: '/faq', label: '常见问题' },
+              { to: '/support', label: '售后政策' },
             ],
           },
-          { type: 'doc', docId: 'downloads', position: 'left', label: '资料下载' },
-          { type: 'doc', docId: 'faq', position: 'left', label: 'FAQ' },
-          { href: 'https://www.maomaoxiang.com', label: '技术博客', position: 'right' },
+          { href: 'https://blog.maomaoxiang.com', label: '技术博客', position: 'right' },
           { href: 'https://github.com/FLOOR5858/maomaoxiang-docs', label: 'GitHub', position: 'right' },
         ],
       },
@@ -72,15 +75,16 @@ const config = {
           {
             title: '产品',
             items: [
-              { label: '产品总览', to: '/' },
+              { label: '产品门面', to: '/' },
               { label: '资料下载', to: '/downloads' },
+              { label: '购买', to: '/buy' },
               { label: '常见问题', to: '/faq' },
             ],
           },
           {
             title: '社区',
             items: [
-              { label: '技术博客', href: 'https://www.maomaoxiang.com' },
+              { label: '技术博客', href: 'https://blog.maomaoxiang.com' },
               { label: 'GitHub', href: 'https://github.com/FLOOR5858' },
             ],
           },
